@@ -1,4 +1,4 @@
-package vrac;
+package model;
 
 public class Game {
 

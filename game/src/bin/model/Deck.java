@@ -1,4 +1,4 @@
-package vrac;
+package model;
 import java.util.ArrayList;
 
 public class Deck {
