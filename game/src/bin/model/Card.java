@@ -1,23 +1,40 @@
 package model;
 
+public enum Suit {
+    spades, hearts, diamonds, clubs
+}
+public enum Rank {
+    two, three, four, five, six, seven, eight, nine, ten, jack, queen, king, ace
+}
+
 public class Card {
-    private int value;
-    private String color;
-
-    public Card(int value, String color) {
-        this.value = value;
-        this.color = color;
+    private Rank rank;
+    private Suit suit;
+    
+    public Card(Rank rank, Suit suit) {
+        this.rank = rank;
+        this.suit = suit;
     }
 
-    public int getValue() {
-        return value;
+    public Rank getRank() {
+        return rank;
     }
 
-    public String getColor() {
-        return color;
+    public Suit getSuit() {
+        return suit;
     }
 
+    @Override
     public String toString() {
-        return value + " " + color;
+        return rank + " of " + suit;
+    }
+
+    public boolean equals(Card card) {
+        if (card == null) {
+            return false;
+        }
+        else{
+            return this.rank == card.rank && this.suit == card.suit;
+        }
     }
 }
