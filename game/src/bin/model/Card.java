@@ -1,13 +1,14 @@
 package model;
 
-public enum Suit {
-    spades, hearts, diamonds, clubs
-}
-public enum Rank {
-    two, three, four, five, six, seven, eight, nine, ten, jack, queen, king, ace
-}
-
 public class Card {
+    public enum Suit {
+    spades, hearts, diamonds, clubs
+    }
+
+    public enum Rank {
+    two, three, four, five, six, seven, eight, nine, ten, jack, queen, king, ace
+    }
+
     private Rank rank;
     private Suit suit;
     

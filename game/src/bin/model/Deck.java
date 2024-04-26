@@ -12,13 +12,13 @@ public class Deck {
         for (Suit suit : Suit.values()){
             for (Rank rank : Rank.values()){
                 Card tempCard = new Card(rank,suit);
-                deck.add(tempCard);
+                this.deck.add(tempCard);
             }
         }
         return shuffle(deck);
     }
 
-    public void printDeck(Deck deck){
+    public static void printDeck(Deck deck){
         for (Card card : this.deck){
             System.out.println(card);
         }
