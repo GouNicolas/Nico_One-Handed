@@ -19,13 +19,13 @@ public class Deck {
     }
 
     public void printDeck(Deck deck){
-        for (Card card : deck){
+        for (Card card : this.deck){
             System.out.println(card);
         }
     }
 
     public static void main(String[] args){
-        Deck deck = new Deck;
+        Deck deck;
         printDeck(deck);
     }
 
