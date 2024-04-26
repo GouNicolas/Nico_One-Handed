@@ -24,6 +24,14 @@ public class Card {
         return suit;
     }
 
+    public Rank setRank(Rank rank){
+        this.rank = rank;
+    }
+
+    public Suit setSuit(Suit suit){
+        this.suit = suit;
+    }
+
     @Override
     public String toString() {
         return rank + " of " + suit;
