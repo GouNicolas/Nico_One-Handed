@@ -2,10 +2,10 @@ package model;
 import java.util.ArrayList;
 
 public class Deck {
-    private ArrayList<Card> deck = new ArrayList();
+    private ArrayList<Card> deck;
     
-    public Deck(ArrayList<Card> deck){
-        this.deck = deck;
+    public Deck(){
+        deck = new ArrayList<Card>();
     }
 
     public Deck shuffle(Deck deck){
@@ -18,14 +18,14 @@ public class Deck {
         return shuffle(deck);
     }
 
-    public static void printDeck(Deck deck){
+    public void printDeck(Deck deck){
         for (Card card : this.deck){
             System.out.println(card);
         }
     }
 
-    public static void main(String[] args){
-        Deck deck;
+    public void main(String[] args){
+        Deck deck = new Deck();
         printDeck(deck);
     }
 
