@@ -1,13 +1,6 @@
 package model;
 
 public class Card {
-    public enum Suit {
-    spades, hearts, diamonds, clubs
-    }
-
-    public enum Rank {
-    two, three, four, five, six, seven, eight, nine, ten, jack, queen, king, ace
-    }
 
     private Rank rank;
     private Suit suit;
@@ -23,14 +16,6 @@ public class Card {
 
     public Suit getSuit() {
         return suit;
-    }
-
-    public Rank setRank(Rank rank){
-        this.rank = rank;
-    }
-
-    public Suit setSuit(Suit suit){
-        this.suit = suit;
     }
 
     @Override
