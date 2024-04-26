@@ -2,20 +2,20 @@ package model;
 import java.util.ArrayList;
 
 public class Deck {
-    ArrayList<Card> deck = new ArrayList();
+    private ArrayList<Card> deck = new ArrayList();
     
     public Deck(ArrayList<Card> deck){
         this.deck = deck;
     }
 
     public Deck shuffle(Deck deck){
-        for (Suit suit : Suit.values){
-            for (Rank rank : Rank.values){
+        for (Suit suit : Suit.values()){
+            for (Rank rank : Rank.values()){
                 Card tempCard = new Card(rank,suit);
-                Deck.add(tempCard);
+                deck.add(tempCard);
             }
         }
-        return Collections.shuffle(deck);
+        return shuffle(deck);
     }
 
     public void printDeck(Deck deck){
