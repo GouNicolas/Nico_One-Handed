@@ -17,16 +17,4 @@ public class Deck {
         }
         return shuffle(deck);
     }
-
-    public void printDeck(Deck deck){
-        for (Card card : this.deck){
-            System.out.println(card);
-        }
-    }
-
-    public void main(String[] args){
-        Deck deck = new Deck();
-        printDeck(deck);
-    }
-
 }
