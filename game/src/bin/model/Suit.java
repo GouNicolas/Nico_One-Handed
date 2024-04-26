@@ -1,5 +1,5 @@
 package model;
 
 public enum Suit {
-    spades, hearts, diamonds, clubs
+    spades("spades"), hearts("hearts"), diamonds("diamonds"), clubs("clubs");
 }
