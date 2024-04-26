@@ -8,6 +8,9 @@ public class Deck {
         deck = new ArrayList<Card>();
     }
 
+    public Deck getDeck(){
+        return deck;
+    }
     public void shuffleDeck(){
         for (Suit suit : Suit.values()){
             for (Rank rank : Rank.values()){
