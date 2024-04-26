@@ -1,11 +1,11 @@
-<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>240</x><y>80</y><w>210</w><h>190</h></coordinates><panel_attributes>Game
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>290</x><y>40</y><w>210</w><h>190</h></coordinates><panel_attributes>Game
 --
 - hand: Hand
 - score: int
 - jokers_used: int
 --
 + play_turn(): void
-+ use_joker(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>240</x><y>300</y><w>210</w><h>190</h></coordinates><panel_attributes>Hand
++ use_joker(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>240</x><y>300</y><w>240</w><h>190</h></coordinates><panel_attributes>Hand
 --
 - cards: List&lt;Card&gt;
 --
@@ -17,7 +17,7 @@
 - cards: List&lt;Card&gt;
 --
 + shuffle(): void
-+ draw_card(): Card</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>120</x><y>260</y><w>300</w><h>30</h></coordinates><panel_attributes>approche naïve ,il faut regarder les interfaces 
++ draw_card(): Card</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>270</x><y>260</y><w>300</w><h>30</h></coordinates><panel_attributes>approche naïve ,il faut regarder les interfaces 
 </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>30</x><y>80</y><w>210</w><h>190</h></coordinates><panel_attributes>Card
 --
 - rank: String
