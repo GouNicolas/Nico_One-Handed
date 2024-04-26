@@ -1,5 +1,5 @@
 package model;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Deck {
     private ArrayList<Card> deck;
@@ -8,13 +8,13 @@ public class Deck {
         deck = new ArrayList<Card>();
     }
 
-    public Deck shuffle(Deck deck){
+    public void shuffleDeck(){
         for (Suit suit : Suit.values()){
             for (Rank rank : Rank.values()){
                 Card tempCard = new Card(rank,suit);
-                this.deck.add(tempCard);
+                deck.add(tempCard);
             }
         }
-        return shuffle(deck);
+        Collections.shuffle(deck);
     }
 }
