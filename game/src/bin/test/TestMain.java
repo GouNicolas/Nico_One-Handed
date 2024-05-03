@@ -1,4 +1,6 @@
-package model;
+package test;
+import model.*;
+
 
 
 public class TestMain {
@@ -10,6 +12,5 @@ public class TestMain {
             line_number+=1;
             System.out.println(line_number+" : "+ card);
         }
-        
     }
 }

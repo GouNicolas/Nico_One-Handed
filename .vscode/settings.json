@@ -1,0 +1,7 @@
+{
+    "java.project.sourcePaths": [
+        "game/test/bin",
+        "game/src/bin",
+        "game/test"
+    ]
+}
