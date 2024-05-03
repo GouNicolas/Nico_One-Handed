@@ -1,4 +1,4 @@
-package vrac;
+package view;
 
 public class UserInterface {
 

@@ -1,4 +1,5 @@
 package model;
+/* 
 import subClassOfCard.*;
 
 
@@ -178,3 +179,4 @@ enum Card {
     private static final Card element[]={twoOfClubs,twoOfDiamonds,twoOfHearts,twoOfSpades,threeOfClubs,threeOfDiamonds,threeOfHearts,threeOfSpades,fourOfClubs,fourOfDiamonds,fourOfHearts,fourOfSpades,fiveOfClubs,fiveOfDiamonds,fiveOfHearts,fiveOfSpades,sixOfClubs,sixOfDiamonds,sixOfHearts,sixOfSpades,sevenOfClubs,sevenOfDiamonds,sevenOfHearts,sevenOfSpades,eightOfClubs,eightOfDiamonds,eightOfHearts,eightOfSpades,nineOfClubs,nineOfDiamonds,nineOfHearts,nineOfSpades,tenOfClubs,tenOfDiamonds,tenOfHearts,tenOfSpades,jackOfClubs,jackOfDiamonds,jackOfHearts,jackOfSpades,queenOfClubs,queenOfDiamonds,queenOfHearts,queenOfSpades,kingOfClubs,kingOfDiamonds,kingOfHearts,kingOfSpades,aceOfClubs,
         aceOfDiamonds,aceOfHearts,aceOfSpades};
 }
+ */
