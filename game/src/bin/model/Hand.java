@@ -26,6 +26,16 @@ public class Hand {
     public Card getCard(int position){
         return hand.get(position);
     }
+    public void display(){
+        int top4_cards = 4;
+        for(Card card : hand){
+            if(top4_cards == 0){
+                break;
+            }
+            System.out.println(card);
+            top4_cards--;
+        }
+    }
     
     
 }
