@@ -31,4 +31,24 @@ public class Card {
             return this.rank == card.rank && this.suit == card.suit;
         }
     }
+    public int hashCode() {
+        return rank.hashCode() + suit.hashCode();
+    }
+    public boolean suitEquals(Card card) {
+        if (card == null) {
+            return false;
+        }
+        else{
+            return this.suit == card.suit;
+        }
+    }
+    public boolean rankEquals(Card card) {
+        if (card == null) {
+            return false;
+        }
+        else{
+            return this.rank == card.rank;
+        }
+    }
+
 }
