@@ -29,11 +29,11 @@ public class Game {
     }
 
     public void playGameConsole(){
-        init(Deck this.deck, Deck this.discard, Hand hand, int score, int jokers_left);
+        init(deck, discard, hand, score, jokers_left);
         boolean run = true;
         while(run){
             while(hand.length() < 4){
-                pioche(d,h);
+                pioche(deck,hand);
             }
 
             System.out.println("Choose between these actions by typing it into the terminal :");
@@ -48,22 +48,22 @@ public class Game {
 
             switch(rep){
                 case "Rank":
-                    if(this.hand[hand.length()].rankEquals(this.hand[hand.length()-3])){
+                    if(hand.getCard(hand.length()).rankEquals(hand.getCard(hand.length()-3))){
                         score+=5;
                         //enlever les 4 cartes de la main
                         //mettre ces cartes dans la défausse
                     }
                     break;
                 case "Suit":
-                    if(this.hand[hand.length()].suitEquals(this.hand[hand.length()-3])){
+                    if(hand.getCard(hand.length()).suitEquals(hand.getCard(hand.length()-3))){
 
                     }
                     break;
                 case "Joker":
-                    
+
                     break;
                 case "Piocher":
-                    
+
                     break;
             }
         }
