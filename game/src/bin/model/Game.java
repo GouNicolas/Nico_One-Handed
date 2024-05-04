@@ -1,4 +1,5 @@
 package model;
+import java.util.Scanner;
 
 public class Game {
     private Deck deck;
@@ -15,11 +16,59 @@ public class Game {
         jokers_left = 3;
     }
 
+    public void pioche(Deck d, Hand h){
+        h.addCard(d.getHead());
+
+    }
+
     public void init(Deck d, Deck dis, Hand h, int s, int j){
         d.shuffleDeck();
         for(int i=0; i<4;i++){
-            h.addCard(d.getHead());
+            pioche(d,h);
         }
-        System.out.println("Salut");
     }
+
+    public void playGameConsole(){
+        init(Deck this.deck, Deck this.discard, Hand hand, int score, int jokers_left);
+        boolean run = true;
+        while(run){
+            while(hand.length() < 4){
+                pioche(d,h);
+            }
+
+            System.out.println("Choose between these actions by typing it into the terminal :");
+            System.out.println("Rank");
+            System.out.println("Suit");
+            System.out.println("Joker");
+            System.out.println("Piocher");
+
+            Scanner input = new Scanner(System.in);
+            String rep = input.nextLine();
+            System.out.println("Choix : " + rep);
+
+            switch(rep){
+                case "Rank":
+                    if(this.hand[hand.length()].rankEquals(this.hand[hand.length()-3])){
+                        score+=5;
+                        //enlever les 4 cartes de la main
+                        //mettre ces cartes dans la défausse
+                    }
+                    break;
+                case "Suit":
+                    if(this.hand[hand.length()].suitEquals(this.hand[hand.length()-3])){
+
+                    }
+                    break;
+                case "Joker":
+                    
+                    break;
+                case "Piocher":
+                    
+                    break;
+            }
+        }
+        
+        
+
+    }    
 }
