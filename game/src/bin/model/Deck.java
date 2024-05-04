@@ -21,4 +21,8 @@ public class Deck {
         }
         Collections.shuffle(deck);
     }
+
+    public Card getHead(){
+        return this.deck.get(0);
+    }
 }
