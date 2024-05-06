@@ -33,7 +33,7 @@ public class Game {
     }
 
     public void init(Deck d, Discard dis, Hand h, int s, int j){
-        // Initialize the Deck field
+        // Initialize this.deck
         if (d == null) {
             deck = new Deck();
             deck.initDeck();
@@ -41,21 +41,21 @@ public class Game {
             deck = d;
         }
     
-        // Initialize the Discard field
+        // Initialize this.discard
         if (dis == null) {
             discard = new Discard();
         } else {
             discard = dis;
         }
     
-        // Initialize the Hand field
+        // Initialize this.hand
         if (h == null) {
             hand = new Hand();
         } else {
             hand = h;
         }
     
-        // Initialize the int fields
+        // Initialize this.score and this.jokers_left
         score = s;
         jokers_left = j;
     }
@@ -68,8 +68,8 @@ public class Game {
                 "h","Help"
             );
     public boolean saveGame(Deck d, Discard dis, Hand h, int s, int j){
-        // sauvegarde la partie
-        // Todo : implementer la sauvegarde de la partie
+        // save the game
+        // Todo: implement game saving
         return true;
     }
     public void handleRankCase() {
@@ -144,27 +144,28 @@ public class Game {
         }
     }
     public boolean noSuitNoRank(){
-        // si la dernière carte de la main n'a ni la même couleur ni la même valeur que la carte 4, renvoie true
-        return !((hand.getCard(hand.length()-1).rankEquals(hand.getCard(hand.length()-4)))||(hand.getCard(hand.length()-1).suitEquals(hand.getCard(hand.length()-4))));
+        // if the first and last cards in the hand are neither the same suit nor the same rank, then return true
+        return !((hand.getCard(0).rankEquals(hand.getCard(3)))&&(hand.getCard(0).suitEquals(hand.getCard(3))));
     }
     
     public boolean isGameOver(){
-        // si le deck est vide et que la main est vide, la partie est finie
-        // si il ne reste plus de jokers, la partie est finie
-        // si le joueur ne peut plus jouer, la partie est finie
         if (deck.length() == 0){
+            // The game is over if the deck is empty and the hand has less than 4 cards
             if (hand.length() <4){
                 return true;
             }
+            // The game is also over if the hand has 4 cards and the first and last cards has neither the same rank nor the same suit as the 4th card
             else if (noSuitNoRank()){
                 return true;
             }
         }
         else {
+            // The game is over if the discard pile has 52 cards
             if(discard.length() == 52){
                 return true;
             }
         }
+        // The game is not over
         return false;
     }
     
