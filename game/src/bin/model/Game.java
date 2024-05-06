@@ -194,15 +194,13 @@ public class Game {
             display.displayGame(hand, score, jokers_left);
             // Ask the player for an action
             String rep = display.askAction();
-
-            rep = responseMap.get(rep);
-            do{
+            
+            while(!responseMap.containsKey(rep)){
                 display.badInput();
                 rep = display.askAction();
-            }while(rep == null);
-                
+            };
 
-            switch(rep){
+            switch(responseMap.get(rep)){
                 case "Rank":
                     handleRankCase();
                     fillHand();
@@ -219,6 +217,7 @@ public class Game {
                     handleDrawCase();
                     break;
                 case "Close":
+                    //todo : implementer la sauvegarde de la partie
                     run = false;
                     break;
                 case "Help":
