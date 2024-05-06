@@ -64,4 +64,5 @@ public abstract class ListOfCards {
     public int length() {
         return cards.size();
     }
+
 }

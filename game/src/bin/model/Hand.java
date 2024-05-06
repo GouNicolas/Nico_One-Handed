@@ -15,7 +15,13 @@ public class Hand extends ListOfCards {
     public Hand() {
         hand = new ArrayList<Card>();
     }
-
+    public Hand(String handString) {
+        hand = new ArrayList<Card>();
+        for (String cardString : handString.split(";")) {
+            Card card = new Card(cardString);
+            hand.add(card);
+        }
+    }
     /**
      * Adds a card to the hand.
      * @param card the card to be added
@@ -74,4 +80,18 @@ public class Hand extends ListOfCards {
         }
         return hand.get(position);
     }
+
+    /**
+     * Returns a string representation of the hand.
+     *
+     * @return a string representation of the hand
+     */
+    public String toString(){
+        String str = "";
+        for (Card card : hand){
+            str += card.toString() + ";";
+        }
+        return str;
+    }
+
 }

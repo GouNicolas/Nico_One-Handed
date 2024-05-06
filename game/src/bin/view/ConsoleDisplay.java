@@ -158,4 +158,18 @@ public class ConsoleDisplay {
         rep = rep.toLowerCase();
         return rep;
     }
+
+    public boolean wantLoadSave(){
+        // return true if the player wants to load a save
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Do you want to load a save? (y/n)");
+        String response = scanner.nextLine().toLowerCase();
+
+        if (response.equals("y") || response.equals("o") || response.equals("yes") || response.equals("oui")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

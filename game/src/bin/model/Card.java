@@ -17,7 +17,17 @@ public class Card {
         this.rank = rank;
         this.suit = suit;
     }
-
+    /**
+         * Constructs a new Card object with the specified card string.
+         * 
+         * @param card the string representation of the card ("ace of spades")
+         */
+    public Card(String card) {
+        String[] cardArray = card.split(" of ");
+        rank = Rank.valueOf(cardArray[0]);
+        suit = Suit.valueOf(cardArray[1]);
+    }
+    
     /**
      * Returns the rank of the card.
      * @return the rank of the card

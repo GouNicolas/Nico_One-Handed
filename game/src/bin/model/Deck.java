@@ -14,6 +14,17 @@ public class Deck extends ListOfCards {
     public Deck(){
         deck = new ArrayList<Card>();
     }
+    /**
+     * @param deckString
+     */
+    
+    public Deck(String deckString) {
+        deck = new ArrayList<Card>();
+        for (String cardString : deckString.split(";")) {
+            Card card = new Card(cardString);
+            deck.add(card);
+        }
+    }
 
     /**
      * Returns the deck of cards.
@@ -67,4 +78,19 @@ public class Deck extends ListOfCards {
             System.out.println(card);
         }
     }
+
+    /**
+     * Returns a string representation of the deck.
+     *
+     * @return a string representation of the deck
+     */
+    public String toString(){
+        String str = "";
+        for (Card card : deck){
+            str += card.toString() + ";";
+        }
+        return str;
+    }
+
+    
 }

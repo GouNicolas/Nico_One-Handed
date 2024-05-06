@@ -1,5 +1,10 @@
 package model;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Map;
+import java.util.Scanner;
 
 import view.ConsoleDisplay;
 
@@ -67,11 +72,57 @@ public class Game {
                 "c","Close",
                 "h","Help"
             );
-    public boolean saveGame(Deck d, Discard dis, Hand h, int s, int j){
+
+    public void saveGame(){
         // save the game
-        // Todo: implement game saving
+        // open the file save.csv
+        // write the deck, discard, hand, score, jokers_left
+        // close the file
+        
+        try {
+            File file = new File("save.csv");
+            if (file.exists()) {
+                file.delete();
+            }
+            FileWriter myWriter = new FileWriter("save.csv");
+            myWriter.write(deck.toString()+"\n");
+            myWriter.write(discard.toString()+"\n");
+            myWriter.write(hand.toString()+"\n");
+            myWriter.write(score+";\n");
+            myWriter.write(jokers_left+";\n");
+            myWriter.close();
+            
+            } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+            }
+    }
+    public boolean loadGame() {
+        // load the game
+        // open the file save.csv
+        // read the deck, discard, hand, score, jokers_left
+        // set the game state based on the read attributes
+        // close the file
+    
+        try {
+            File file = new File("save.csv");
+            if (!file.exists()) {
+                return false;
+            }
+            Scanner myReader = new Scanner(file);
+            deck = new Deck(myReader.nextLine());
+            discard = new Discard(myReader.nextLine());
+            hand = new Hand(myReader.nextLine());
+            score = Integer.parseInt(myReader.nextLine().split(";")[0]);
+            jokers_left = Integer.parseInt(myReader.nextLine().split(";")[0]);
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
+
     public void handleRankCase() {
         // If the first card of the hand has the same rank as the 4th card, the player wins 5 points
         if(hand.getCard(0).rankEquals(hand.getCard(3))){
@@ -173,8 +224,15 @@ public class Game {
      * javadoc to add
      */
     public void playGameConsole(){
-        // initialize the game with default values for a new game
-        init(null, null, null, score, jokers_left);
+        boolean from_a_save = display.wantLoadSave();
+        if (from_a_save){
+            loadGame();
+        }
+        else{
+            // initialize the game with default values for a new game
+            init(null, null, null, score, jokers_left);
+        }
+        
         boolean run = true;
 
         // This section is only for debugging purposes
@@ -218,7 +276,7 @@ public class Game {
                     handleDrawCase();
                     break;
                 case "Close":
-                    //todo : implementer la sauvegarde de la partie
+                    saveGame();
                     run = false;
                     break;
                 case "Help":

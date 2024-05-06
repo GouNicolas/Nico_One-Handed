@@ -15,6 +15,13 @@ public class Discard extends ListOfCards {
     public Discard() {
         discard = new ArrayList<Card>();
     }
+    public Discard(String discardString) {
+        discard = new ArrayList<Card>();
+        for (String cardString : discardString.split(";")) {
+            Card card = new Card(cardString);
+            discard.add(card);
+        }
+    }
 
     /**
      * Adds a card to the discard pile.
@@ -78,4 +85,18 @@ public class Discard extends ListOfCards {
     public void displayTopCard() {
         System.out.println(discard.get(discard.size() - 1));
     }
+
+    /**
+     * Returns a string representation of the discard.
+     *
+     * @return a string representation of the discard
+     */
+    public String toString(){
+        String str = "";
+        for (Card card : discard){
+            str += card.toString() + ";";
+        }
+        return str;
+    }
+
 }
