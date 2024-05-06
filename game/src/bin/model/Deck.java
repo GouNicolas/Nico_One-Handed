@@ -1,7 +1,8 @@
 package model;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
 
-public class Deck {
+public class Deck extends ListOfCards{
     private ArrayList<Card> deck;
     
     public Deck(){
@@ -24,5 +25,9 @@ public class Deck {
 
     public Card getHead(){
         return this.deck.get(0);
+    }
+
+    public void removeHead(){
+        this.deck.remove(0);
     }
 }

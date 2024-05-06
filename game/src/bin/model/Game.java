@@ -27,6 +27,13 @@ public class Game {
             pioche(d,h);
         }
     }
+    public void displayHand(Hand h){
+        h.display();
+    }
+    public static final void displayDeck(Deck d){
+        d.display();
+    }
+
 
     public void playGameConsole(){
         init(deck, discard, hand, score, jokers_left);
@@ -70,5 +77,5 @@ public class Game {
         
         
 
-    }    
+    }
 }

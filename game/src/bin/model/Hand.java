@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public class Hand {
+public class Hand extends ListOfCards{
     private ArrayList<Card> hand;
 
     public Hand(){
@@ -12,12 +12,22 @@ public class Hand {
         hand.add(card);
     }
     public void removeCard(Card card){
+        // Remove the specified card from the hand
         hand.remove(card);
-    }
+        }
+        
     public int length(){
+        // Return the number of cards in the hand
         return hand.size();
-    }
+        }
+        
+    public int getHandSize(){
+        // Return the size of the hand
+        return hand.size();
+        }
+        
     public ArrayList<Card> getHand(){
+        // Return the entire hand
         return hand;
     }
     public void clearHand(){
