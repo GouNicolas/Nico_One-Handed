@@ -13,7 +13,7 @@ public class Deck extends ListOfCards{
         return deck;
     }
     
-    public void shuffleDeck(){
+    public void initDeck(){
         for (Suit suit : Suit.values()){
             for (Rank rank : Rank.values()){
                 Card tempCard = new Card(rank,suit);

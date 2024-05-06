@@ -57,4 +57,11 @@ public abstract class ListOfCards {
     public void shuffleCards() {
         Collections.shuffle(cards);
     }
+    /**
+     * Returns the number of cards in the list.
+     * @return The number of cards in the list.
+     */
+    public int length() {
+        return cards.size();
+    }
 }

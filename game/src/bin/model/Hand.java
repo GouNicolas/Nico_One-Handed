@@ -34,6 +34,9 @@ public class Hand extends ListOfCards{
         hand.clear();
     }
     public Card getCard(int position){
+        if (position < 0 || position >= hand.size()){
+            return null;
+        }
         return hand.get(position);
     }
     public void display(){
