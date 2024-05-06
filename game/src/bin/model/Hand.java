@@ -9,7 +9,7 @@ public class Hand extends ListOfCards{
         hand = new ArrayList<Card>();
     }
     public void addCard(Card card){
-        hand.add(card);
+        hand.add(0, card);
     }
     public void removeCard(Card card){
         // Remove the specified card from the hand

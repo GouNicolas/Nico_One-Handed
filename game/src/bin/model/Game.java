@@ -3,6 +3,7 @@ import java.util.Map;
 
 import view.ConsoleDisplay;
 
+
 public class Game {
     private Deck deck;
     private Discard discard;
@@ -21,38 +22,67 @@ public class Game {
         jokers_left = 3;
     }
 
-    public void draw(Deck d, Hand h){
-        h.addCard(d.getHead());
+    public void draw(){
+        // Draw a card from the deck and add it to the hand
+        hand.addCard(deck.getHead());
+
+        // Remove the card from the deck
+        deck.removeHead();
+        
 
     }
 
     public void init(Deck d, Discard dis, Hand h, int s, int j){
-        d.initDeck();
-        for(int i=0; i<4;i++){
-            draw(d,h);
+        // Initialize the Deck field
+        if (d == null) {
+            deck = new Deck();
+            deck.initDeck();
+        } else {
+            deck = d;
         }
+    
+        // Initialize the Discard field
+        if (dis == null) {
+            discard = new Discard();
+        } else {
+            discard = dis;
+        }
+    
+        // Initialize the Hand field
+        if (h == null) {
+            hand = new Hand();
+        } else {
+            hand = h;
+        }
+    
+        // Initialize the int fields
+        score = s;
+        jokers_left = j;
     }
     public final Map<String, String> responseMap = Map.of(
-                "Rank","r",
-                "Suit","s",
-                "Joker","j",
-                "Piocher","d",
-                "Close","c");
+                "r","Rank",
+                "s","Suit",
+                "j","Joker",
+                "d","Draw",
+                "c","Close",
+                "h","Help"
+            );
     public boolean saveGame(Deck d, Discard dis, Hand h, int s, int j){
         // sauvegarde la partie
         // Todo : implementer la sauvegarde de la partie
         return true;
     }
     public void handleRankCase() {
-        if(hand.getCard(hand.length()-1).rankEquals(hand.getCard(hand.length()-4))){
+        // If the first card of the hand has the same rank as the 4th card, the player wins 5 points
+        if(hand.getCard(0).rankEquals(hand.getCard(3))){
             score += 5;
             // Put 4 top cards (of the hand) in the discard pile
             for (int i = 0; i < 4; i++){
-                discard.addCard(hand.getCard(hand.length()-1));
+                discard.addCard(hand.getCard(i));
             }
             // Remove these 4 cards from the hand
             for (int i = 0; i < 4; i++){
-                hand.removeCard(hand.getCard(hand.length()-1));
+                hand.removeCard(hand.getCard(0));
             }
         }
         else {
@@ -61,39 +91,34 @@ public class Game {
     }
     
     public void handleSuitCase() {
-        if(hand.getCard(hand.length()-1).suitEquals(hand.getCard(hand.length()-4))){
+        // If the first card of the hand has the same suit as the 4th card, the player wins 2 points
+        if(hand.getCard(0).suitEquals(hand.getCard(3))){
             score += 2;
             // Put the 2 middle cards (of the Four top cards of the hand) in the discard pile
-            for (int i = 0; i < 2; i++){
-                discard.addCard(hand.getCard(hand.length()-2));
+            for (int i = 1; i < 3; i++){
+                discard.addCard(hand.getCard(i));
             }
             // Remove these 2 cards from the hand
-            for (int i = 0; i < 2; i++){
-                hand.removeCard(hand.getCard(hand.length()-2));
+            for (int i = 1; i < 3; i++){
+                hand.removeCard(hand.getCard(1));
             }
         }
         else {
             display.WrongAction("Suit");
         }
     }
-    // only for debugging purposes
-    public Deck getDeck(){
-        return deck;
-    }
 
     public void handleJokerCase() {
         // If the player still has jokers, do the same as handleSuitCase() but without modifying the score
         if(jokers_left > 0){
             jokers_left--;
-            if(hand.getCard(hand.length()).suitEquals(hand.getCard(hand.length()-3))){
-                // Put the 2 middle cards (of the Four top cards of the hand) in the discard pile
-                for (int i = 0; i < 2; i++){
-                    discard.addCard(hand.getCard(hand.length()-2));
-                }
-                // Remove these 2 cards from the hand
-                for (int i = 0; i < 2; i++){
-                    hand.removeCard(hand.getCard(hand.length()-2));
-                }
+            // Put the 2 middle cards (of the Four top cards of the hand) in the discard pile
+            for (int i = 1; i < 3; i++){
+                discard.addCard(hand.getCard(i));
+            }
+            // Remove these 2 cards from the hand
+            for (int i = 1; i < 3; i++){
+                hand.removeCard(hand.getCard(1));
             }
         }
         else {
@@ -102,13 +127,20 @@ public class Game {
     }
     
     public void handleDrawCase() {
-         // Draw as many cards as necessary to have 4 cards in hand
+        // Draw 1 card or more if necessary to have 4 cards in hand
+        if (deck.length() == 0){
+            display.WrongAction("Draw");
+        }
+        else {
+            do{
+                draw();
+            }while(hand.length() < 4);
+        }
+    }
+    public void fillHand(){
+        // Draw as many cards as necessary to have 4 cards in hand
         while(hand.length() < 4){
-            draw(deck,hand);
-            if(deck.length() == 0){
-                display.WrongAction("Draw");
-                break;
-            }
+            draw();
         }
     }
     public boolean noSuitNoRank(){
@@ -116,12 +148,22 @@ public class Game {
         return !((hand.getCard(hand.length()-1).rankEquals(hand.getCard(hand.length()-4)))||(hand.getCard(hand.length()-1).suitEquals(hand.getCard(hand.length()-4))));
     }
     
-    public boolean isGameOver() {
+    public boolean isGameOver(){
         // si le deck est vide et que la main est vide, la partie est finie
         // si il ne reste plus de jokers, la partie est finie
         // si le joueur ne peut plus jouer, la partie est finie
-        if ((jokers_left == 0 && hand.length() < 4) || (deck.length() == 0 && hand.length() < 4) || discard.length() == 52 || noSuitNoRank()){
-            return true;
+        if (deck.length() == 0){
+            if (hand.length() <4){
+                return true;
+            }
+            else if (noSuitNoRank()){
+                return true;
+            }
+        }
+        else {
+            if(discard.length() == 52){
+                return true;
+            }
         }
         return false;
     }
@@ -130,30 +172,48 @@ public class Game {
      * javadoc to add
      */
     public void playGameConsole(){
-        init(deck, discard, hand, score, jokers_left);
+        // initialize the game with default values for a new game
+        init(null, null, null, score, jokers_left);
         boolean run = true;
-        
+
+        // This section is only for debugging purposes
+        deck.display();
+        // End of debugging section
+
         // ask the player if he wants to see the rules, else explain the actions
         display.HelpConsole();
-        // launch the game in th console
+
+        // Draw 4 cards at the beginning of the game
+        handleDrawCase();
         while(run){
-            while(hand.length() < 4){
-                draw(deck,hand);
-            }
+            // This section is only for debugging purposes
+            display.debugCount(deck, hand, discard);
+            // End of debugging section
+
             // Show the game state
             display.displayGame(hand, score, jokers_left);
             // Ask the player for an action
             String rep = display.askAction();
 
+            rep = responseMap.get(rep);
+            do{
+                display.badInput();
+                rep = display.askAction();
+            }while(rep == null);
+                
+
             switch(rep){
                 case "Rank":
                     handleRankCase();
+                    fillHand();
                     break;
                 case "Suit":
                     handleSuitCase();
+                    fillHand();
                     break;
                 case "Joker":
                     handleJokerCase();
+                    fillHand();
                     break;
                 case "Draw":
                     handleDrawCase();
@@ -161,17 +221,15 @@ public class Game {
                 case "Close":
                     run = false;
                     break;
-                default:
-                    // if the typed response is incorrect, call HelpConsole
-                    if (!(responseMap.containsValue(rep))){
-                        display.badInput();
-                    }
+                case "Help":
+                    display.HelpConsole();
                     break;
             }
             if(isGameOver()){
                 run = false;
                 display.GameOver();
                 display.displayScore(score);
+                display.displayHand(hand);
                 System.exit(0);
             }
         }
