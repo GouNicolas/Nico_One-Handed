@@ -37,32 +37,20 @@ public class Game {
 
     }
 
-    public void init(Deck d, Discard dis, Hand h, int s, int j){
+    public void init(){
         // Initialize this.deck
-        if (d == null) {
-            deck = new Deck();
-            deck.initDeck();
-        } else {
-            deck = d;
-        }
+        deck = new Deck();
+        deck.initDeck();
     
         // Initialize this.discard
-        if (dis == null) {
-            discard = new Discard();
-        } else {
-            discard = dis;
-        }
-    
+        discard = new Discard();
+
         // Initialize this.hand
-        if (h == null) {
-            hand = new Hand();
-        } else {
-            hand = h;
-        }
+        hand = new Hand();
     
         // Initialize this.score and this.jokers_left
-        score = s;
-        jokers_left = j;
+        score = 0;
+        jokers_left = 3;
     }
     public final Map<String, String> responseMap = Map.of(
                 "r","Rank",
@@ -230,7 +218,7 @@ public class Game {
         }
         else{
             // initialize the game with default values for a new game
-            init(null, null, null, score, jokers_left);
+            init();
         }
         
         boolean run = true;
