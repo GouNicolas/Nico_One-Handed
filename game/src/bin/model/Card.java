@@ -10,7 +10,6 @@ public class Card {
     
     /**
      * Constructs a card with the specified rank and suit.
-     * 
      * @param rank the rank of the card
      * @param suit the suit of the card
      */
@@ -21,7 +20,6 @@ public class Card {
 
     /**
      * Returns the rank of the card.
-     * 
      * @return the rank of the card
      */
     public Rank getRank() {
@@ -30,7 +28,6 @@ public class Card {
 
     /**
      * Returns the suit of the card.
-     * 
      * @return the suit of the card
      */
     public Suit getSuit() {
@@ -39,7 +36,6 @@ public class Card {
 
     /**
      * Returns a string representation of the card.
-     * 
      * @return a string representation of the card
      */
     @Override

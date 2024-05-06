@@ -1,12 +1,19 @@
 package view;
+
 import java.util.Scanner;
 
 import model.Deck;
 import model.Discard;
 import model.Hand;
 
+/**
+ * The ConsoleDisplay class is responsible for displaying the game information and interacting with the user through the console.
+ */
 public class ConsoleDisplay {
     
+    /**
+     * Displays the rules of the game on the console.
+     */
     public void ExplainRulesConsole(){
         System.out.println("The game is played with a deck of 52 cards");
         System.out.println("The deck is shuffled and the player draw 4 cards");
@@ -20,6 +27,9 @@ public class ConsoleDisplay {
         System.out.println("Help : Display the rules and the actions");
     }
 
+    /**
+     * Displays the available actions and their corresponding keys on the console.
+     */
     public void ExplainActionsConsole(){
         System.out.println("For each action, type the first letter :");
         System.out.println("Rank : r");
@@ -28,10 +38,6 @@ public class ConsoleDisplay {
         System.out.println("Draw : d");
         System.out.println("Close the game : c");
         System.out.println("Help : h");
-    }
-    // Only for debugging purposes
-    public void displayDeck(Deck deck){
-        System.out.println(deck.getDeck());
     }
 
     /**
@@ -56,12 +62,26 @@ public class ConsoleDisplay {
             ExplainActionsConsole();
         }
     }
+
+    /**
+     * Displays the player's score on the console.
+     * @param score The player's score.
+     */
     public void displayScore(int score){
         System.out.println("Score : " + score);
     }
+
+    /**
+     * Displays a message for invalid user input on the console.
+     */
     public void badInput(){
         System.out.println("Bad input, please try again.");
     }
+
+    /**
+     * Displays a message for wrong action on the console.
+     * @param action The wrong action.
+     */
     public void WrongAction(String action){
         switch (action) {
             case "Draw":
@@ -80,12 +100,23 @@ public class ConsoleDisplay {
                 break;
         }
     }
-    // Only for debugging purposes
+
+    /**
+     * Displays the count of cards in the deck, hand, and discard pile for debugging purposes.
+     * @param deck The deck of cards.
+     * @param hand The player's hand.
+     * @param discard The discard pile.
+     */
     public void debugCount(Deck deck, Hand hand, Discard discard){
         System.out.println("Deck : " + deck.length());
         System.out.println("Hand : " + hand.length());
         System.out.println("Discard : " + discard.length());
     }
+
+    /**
+     * Displays the player's hand on the console.
+     * @param hand The player's hand.
+     */
     public void displayHand(Hand hand){
         for(int i = 0; i < 4; i++){
             System.out.printf(hand.getCard(i).toString()+ "  ");
@@ -93,14 +124,29 @@ public class ConsoleDisplay {
         System.out.println();
     }
 
+    /**
+     * Displays the player's hand, score, and jokers left on the console.
+     * @param hand The player's hand.
+     * @param score The player's score.
+     * @param jokers_left The number of jokers left.
+     */
     public void displayGame(Hand hand, int score, int jokers_left){
         System.out.println("Score : " + score + "   Jokers left : " + jokers_left);
         displayHand(hand);
         System.out.println();
     }
+
+    /**
+     * Displays a message for game over on the console.
+     */
     public void GameOver(){
         System.out.println("Well played, the game is over.");
     }
+
+    /**
+     * Prompts the player to enter an action and returns the user's input.
+     * @return The user's action.
+     */
     public String askAction(){
         System.out.printf("Type your action : ");
         Scanner input = new Scanner(System.in);
