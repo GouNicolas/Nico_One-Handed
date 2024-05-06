@@ -2,8 +2,6 @@ package model;
 
 import java.util.ArrayList;
 
-import java.util.ArrayList;
-
 /**
  * The Discard class represents a discard pile of cards in a card game.
  * It extends the ListOfCards class and provides methods to add, remove, and access cards in the discard pile.
