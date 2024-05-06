@@ -1,6 +1,5 @@
 package model;
 import java.util.Map;
-import java.util.Scanner;
 
 import view.ConsoleDisplay;
 
@@ -22,7 +21,7 @@ public class Game {
         jokers_left = 3;
     }
 
-    public void pioche(Deck d, Hand h){
+    public void draw(Deck d, Hand h){
         h.addCard(d.getHead());
 
     }
@@ -30,7 +29,7 @@ public class Game {
     public void init(Deck d, Discard dis, Hand h, int s, int j){
         d.initDeck();
         for(int i=0; i<4;i++){
-            pioche(d,h);
+            draw(d,h);
         }
     }
     public final Map<String, String> responseMap = Map.of(
@@ -41,16 +40,17 @@ public class Game {
                 "Close","c");
     public boolean saveGame(Deck d, Discard dis, Hand h, int s, int j){
         // sauvegarde la partie
+        // Todo : implementer la sauvegarde de la partie
         return true;
     }
     public void handleRankCase() {
         if(hand.getCard(hand.length()-1).rankEquals(hand.getCard(hand.length()-4))){
             score += 5;
-            //mettre ces cartes dans la défausse
+            // Put 4 top cards (of the hand) in the discard pile
             for (int i = 0; i < 4; i++){
                 discard.addCard(hand.getCard(hand.length()-1));
             }
-            //enlever les 4 cartes de la main
+            // Remove these 4 cards from the hand
             for (int i = 0; i < 4; i++){
                 hand.removeCard(hand.getCard(hand.length()-1));
             }
@@ -63,11 +63,11 @@ public class Game {
     public void handleSuitCase() {
         if(hand.getCard(hand.length()-1).suitEquals(hand.getCard(hand.length()-4))){
             score += 2;
-            //mettre ces cartes dans la défausse
+            // Put the 2 middle cards (of the Four top cards of the hand) in the discard pile
             for (int i = 0; i < 2; i++){
                 discard.addCard(hand.getCard(hand.length()-2));
             }
-            //enlever les 2 cartes de la main
+            // Remove these 2 cards from the hand
             for (int i = 0; i < 2; i++){
                 hand.removeCard(hand.getCard(hand.length()-2));
             }
@@ -76,40 +76,55 @@ public class Game {
             display.WrongAction("Suit");
         }
     }
-    
+    // only for debugging purposes
+    public Deck getDeck(){
+        return deck;
+    }
+
     public void handleJokerCase() {
-        // si le joueur a encore des jokers, fais comme Suit mais sans modifier le score
+        // If the player still has jokers, do the same as handleSuitCase() but without modifying the score
         if(jokers_left > 0){
             jokers_left--;
             if(hand.getCard(hand.length()).suitEquals(hand.getCard(hand.length()-3))){
-                //mettre ces cartes dans la défausse
+                // Put the 2 middle cards (of the Four top cards of the hand) in the discard pile
                 for (int i = 0; i < 2; i++){
                     discard.addCard(hand.getCard(hand.length()-2));
                 }
-                //enlever les 2 cartes de la main
+                // Remove these 2 cards from the hand
                 for (int i = 0; i < 2; i++){
                     hand.removeCard(hand.getCard(hand.length()-2));
                 }
             }
         }
         else {
-            display.WrongAction("Joker");
+        display.WrongAction("Joker");
         }
     }
     
     public void handleDrawCase() {
-        // pioche autant de cartes que nécessaire pour avoir 4 cartes en main
-        
+         // Draw as many cards as necessary to have 4 cards in hand
         while(hand.length() < 4){
-            pioche(deck,hand);
+            draw(deck,hand);
             if(deck.length() == 0){
                 display.WrongAction("Draw");
                 break;
             }
         }
     }
+    public boolean noSuitNoRank(){
+        // si la dernière carte de la main n'a ni la même couleur ni la même valeur que la carte 4, renvoie true
+        return !((hand.getCard(hand.length()-1).rankEquals(hand.getCard(hand.length()-4)))||(hand.getCard(hand.length()-1).suitEquals(hand.getCard(hand.length()-4))));
+    }
     
-
+    public boolean isGameOver() {
+        // si le deck est vide et que la main est vide, la partie est finie
+        // si il ne reste plus de jokers, la partie est finie
+        // si le joueur ne peut plus jouer, la partie est finie
+        if ((jokers_left == 0 && hand.length() < 4) || (deck.length() == 0 && hand.length() < 4) || discard.length() == 52 || noSuitNoRank()){
+            return true;
+        }
+        return false;
+    }
     
     /**
      * javadoc to add
@@ -123,15 +138,12 @@ public class Game {
         // launch the game in th console
         while(run){
             while(hand.length() < 4){
-                pioche(deck,hand);
+                draw(deck,hand);
             }
-            
-
-            Scanner input = new Scanner(System.in);
-            String rep = input.nextLine();
-            System.out.println("Choix : " + rep);
-            input.close();
-            rep = rep.toLowerCase();
+            // Show the game state
+            display.displayGame(hand, score, jokers_left);
+            // Ask the player for an action
+            String rep = display.askAction();
 
             switch(rep){
                 case "Rank":
@@ -156,9 +168,12 @@ public class Game {
                     }
                     break;
             }
+            if(isGameOver()){
+                run = false;
+                display.GameOver();
+                display.displayScore(score);
+                System.exit(0);
+            }
         }
-        
-        
-
     }
 }

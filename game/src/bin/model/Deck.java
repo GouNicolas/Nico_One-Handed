@@ -30,4 +30,14 @@ public class Deck extends ListOfCards{
     public void removeHead(){
         this.deck.remove(0);
     }
+
+    public int length(){
+        return deck.size();
+    }
+
+    public void display(){
+        for (Card card : deck){
+            System.out.println(card);
+        }
+    }
 }

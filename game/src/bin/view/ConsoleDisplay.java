@@ -1,6 +1,8 @@
 package view;
-
 import java.util.Scanner;
+
+import model.Deck;
+import model.Hand;
 
 public class ConsoleDisplay {
     
@@ -24,7 +26,16 @@ public class ConsoleDisplay {
         System.out.println("Draw : d");
         System.out.println("Close the game : c");
     }
+    // Only for debugging purposes
+    public void displayDeck(Deck deck){
+        System.out.println(deck.getDeck());
+    }
 
+    /**
+     * Displays the help message and prompts the player to see the rules or actions.
+     * If the player chooses to see the rules, it calls the ExplainRulesConsole method.
+     * Else call the ExplainActionsConsole method.
+     */
     public void HelpConsole(){
         // Display the help message
         // ask the player if he wants to see the rules
@@ -38,10 +49,8 @@ public class ConsoleDisplay {
 
         if (response.equals("y") || response.equals("o") || response.equals("yes") || response.equals("oui")) {
             ExplainRulesConsole();
-            scanner.close();
         } else {
             ExplainActionsConsole();
-            scanner.close();
         }
     }
     public void displayScore(int score){
@@ -69,5 +78,30 @@ public class ConsoleDisplay {
                 break;
         }
     }
-    
+    public void displayHand(Hand hand){
+        for(int i = 0; i < 4; i++){
+            System.out.printf(hand.getCard(i).toString()+ "  ");
+        }
+        System.out.println();
+    }
+
+    public void displayGame(Hand hand, int score, int jokers_left){
+        System.out.println("Score : " + score + "   Jokers left : " + jokers_left);
+        displayHand(hand);
+        System.out.println();
+    }
+    public void GameOver(){
+        System.out.println("Well played, the game is over.");
+    }
+    public String askAction(){
+        System.out.println("Type your action : ");
+        Scanner input = new Scanner(System.in);
+        String rep = input.nextLine();
+
+        // temporary 
+        System.out.println("Action : " + rep);
+
+        rep = rep.toLowerCase();
+        return rep;
+    }
 }
