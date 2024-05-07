@@ -3,9 +3,10 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
-import model.*;
-import java.util.Map;
-import java.util.Map.Entry;
+import model.Card;
+import model.Rank;
+import model.Suit;
+
 
 public class ViewCard extends Card{
     public ImageIcon image;

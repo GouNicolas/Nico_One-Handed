@@ -1,10 +1,14 @@
 package test;
 
+import model.Game;
+
 public class TestMain {
     public static void main(String[] args){
-        HandTest handTest = new HandTest();
-        handTest.testHand();
-        DeckTest deckTest = new DeckTest();
-        deckTest.testShuffleDeck();
+        
+        Game g = new Game();
+
+        // launch the in the console
+        g.playGameConsole();
+        
     }
 }

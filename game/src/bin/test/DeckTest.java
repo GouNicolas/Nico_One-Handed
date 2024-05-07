@@ -1,15 +1,16 @@
 package test;
 
-import model.Deck;
-import model.Card;
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import model.Deck;
 
 public class DeckTest {
     @Test
-    public void testShuffleDeck() {
+    public void testInitDeck() {
         Deck deck = new Deck();
-        deck.shuffleDeck();
+        deck.initDeck();
         assertEquals(52, deck.getDeck().size()); // A deck of cards has 52 cards
 
         // Check if the deck contains duplicates

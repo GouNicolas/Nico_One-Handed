@@ -2,40 +2,96 @@ package model;
 
 import java.util.ArrayList;
 
-public class Hand {
+/**
+ * Represents your hand in this game 
+ * containing a list of cards.
+ */
+public class Hand extends ListOfCards {
     private ArrayList<Card> hand;
 
-    public Hand(){
+    /**
+     * Constructs an empty hand.
+     */
+    public Hand() {
         hand = new ArrayList<Card>();
     }
-    public void addCard(Card card){
-        hand.add(card);
-    }
-    public void removeCard(Card card){
-        hand.remove(card);
-    }
-    public ArrayList<Card> getHand(){
-        return hand;
-    }
-    public void clearHand(){
-        hand.clear();
-    }
-    public int getHandSize(){
-        return hand.size();
-    }
-    public Card getCard(int position){
-        return hand.get(position);
-    }
-    public void display(){
-        int top4_cards = 4;
-        for(Card card : hand){
-            if(top4_cards == 0){
-                break;
-            }
-            System.out.println(card);
-            top4_cards--;
+    public Hand(String handString) {
+        hand = new ArrayList<Card>();
+        for (String cardString : handString.split(";")) {
+            Card card = new Card(cardString);
+            hand.add(card);
         }
     }
-    
-    
+    /**
+     * Adds a card to the hand.
+     * @param card the card to be added
+     */
+    public void addCard(Card card) {
+        hand.add(0, card);
+    }
+
+    /**
+     * Removes a card from the hand.
+     * @param card the card to be removed
+     */
+    public void removeCard(Card card) {
+        hand.remove(card);
+    }
+
+    /**
+     * Returns the number of cards in the hand.
+     * @return the number of cards in the hand
+     */
+    public int length() {
+        return hand.size();
+    }
+
+    /**
+     * Returns the size of the hand.
+     * @return the size of the hand
+     */
+    public int getHandSize() {
+        return hand.size();
+    }
+
+    /**
+     * Returns the entire hand.
+     * @return the entire hand
+     */
+    public ArrayList<Card> getHand() {
+        return hand;
+    }
+
+    /**
+     * Clears the hand, removing all cards.
+     */
+    public void clearHand() {
+        hand.clear();
+    }
+
+    /**
+     * Returns the card at the specified position in the hand.
+     * @param position the position of the card to be retrieved
+     * @return the card at the specified position, or null if the position is invalid
+     */
+    public Card getCard(int position) {
+        if (position < 0 || position >= hand.size()) {
+            return null;
+        }
+        return hand.get(position);
+    }
+
+    /**
+     * Returns a string representation of the hand.
+     *
+     * @return a string representation of the hand
+     */
+    public String toString(){
+        String str = "";
+        for (Card card : hand){
+            str += card.toString() + ";";
+        }
+        return str;
+    }
+
 }
