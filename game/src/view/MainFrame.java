@@ -2,6 +2,6 @@ package view;
 
 import javax.swing.JFrame;
 
-public class MainFrame implements {
+public class MainFrame{
     
 }
