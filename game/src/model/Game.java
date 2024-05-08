@@ -223,9 +223,8 @@ public class Game {
         
         boolean run = true;
 
-        // This section is only for debugging purposes
-        deck.display();
-        // End of debugging section
+        // Only for debugging purposes
+        //deck.display();
 
         // ask the player if he wants to see the rules, else explain the actions
         display.HelpConsole();
@@ -233,9 +232,8 @@ public class Game {
         // Draw 4 cards at the beginning of the game
         handleDrawCase();
         while(run){
-            // This section is only for debugging purposes
-            display.debugCount(deck, hand, discard);
-            // End of debugging section
+            // Only for debugging purposes
+            // display.debugCount(deck, hand, discard);
 
             // Show the game state
             display.displayGame(hand, score, jokers_left);

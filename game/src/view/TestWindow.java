@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.text.View;
 import javax.swing.ImageIcon;
 
 public class TestWindow extends JFrame implements ActionListener {
@@ -91,6 +92,10 @@ public class TestWindow extends JFrame implements ActionListener {
 		//This should be done at the end, otherwise some elements might 
 		//not properly appear (images in particular)
 		this.setVisible(true);
+	}
+	public void setCardDisplay() {
+		ViewCard card = new ViewCard(null, null);
+		this.cardDisplay.setIcon(card.image);
 	}
 
 	/**

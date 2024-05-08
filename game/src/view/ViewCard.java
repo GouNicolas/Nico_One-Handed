@@ -25,7 +25,7 @@ public class ViewCard extends Card{
         Map.entry(Rank.queen, "Q"),
         Map.entry(Rank.king, "K")
     );
-
+    
     
     public static final Map<Suit, String> suitMap = Map.of(
         Suit.clubs, "C",
