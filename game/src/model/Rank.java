@@ -1,6 +1,6 @@
 package model;
 
 public enum Rank {
-    two,three,four,five,six,seven,eight,nine,ten,jack,queen,king,ace;
+    TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,TEN,JACK,QUEEN,KING,ACE;
     
 }

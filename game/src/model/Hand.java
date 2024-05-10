@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Represents your hand in this game 
  * containing a list of cards.
  */
-public class Hand extends ListOfCards {
+public class Hand implements ListOfCards {
     private ArrayList<Card> hand;
 
     /**
@@ -55,14 +55,6 @@ public class Hand extends ListOfCards {
     }
 
     /**
-     * Returns the entire hand.
-     * @return the entire hand
-     */
-    public ArrayList<Card> getHand() {
-        return hand;
-    }
-
-    /**
      * Clears the hand, removing all cards.
      */
     public void clearHand() {
@@ -92,6 +84,15 @@ public class Hand extends ListOfCards {
             str += card.toString() + ";";
         }
         return str;
+    }
+    @Override
+    public ArrayList<Card> getCards() {
+        return hand;
+    }
+    @Override
+    public void shuffleCards() {
+        // do nothing
+        throw new UnsupportedOperationException("Cannot shuffle the hand.");
     }
 
 }

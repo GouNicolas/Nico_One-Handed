@@ -20,38 +20,37 @@ public class Game {
 
     public Game(){
         deck = new Deck();
+        deck.initDeck();
         discard = new Discard();
         hand = new Hand();
         display = new ConsoleDisplay();
         score = 0;
         jokers_left = 3;
     }
-
+    public Deck getDeck(){
+        return deck;
+    }
+    public Discard getDiscard(){
+        return discard;
+    }
+    public Hand getHand(){
+        return hand;
+    }
+    public int getScore(){
+        return score;
+    }
+    public int getJokersLeft(){
+        return jokers_left;
+    }
     public void draw(){
         // Draw a card from the deck and add it to the hand
         hand.addCard(deck.getHead());
 
         // Remove the card from the deck
         deck.removeHead();
-        
 
     }
 
-    public void init(){
-        // Initialize this.deck
-        deck = new Deck();
-        deck.initDeck();
-    
-        // Initialize this.discard
-        discard = new Discard();
-
-        // Initialize this.hand
-        hand = new Hand();
-    
-        // Initialize this.score and this.jokers_left
-        score = 0;
-        jokers_left = 3;
-    }
     public final Map<String, String> responseMap = Map.of(
                 "r","Rank",
                 "s","Suit",
@@ -209,22 +208,20 @@ public class Game {
     }
     
     /**
-     * javadoc to add
+     * Play the game in the console
+     * The player can choose between 5 actions:
+     * - Rank: if the first card of the hand has the same rank as the 4th card, the player wins 5 points
+     * - Suit: if the first card of the hand has the same suit as the 4th card, the player wins 2 points
+     * - Joker: if the player still has jokers, do the same as Suit but without modifying the score
+     * - Draw: draw 1 card or more if necessary to have 4 cards in hand
+     * - Close: save the game and exit
      */
     public void playGameConsole(){
         boolean from_a_save = display.wantLoadSave();
         if (from_a_save){
             loadGame();
         }
-        else{
-            // initialize the game with default values for a new game
-            init();
-        }
-        
         boolean run = true;
-
-        // Only for debugging purposes
-        //deck.display();
 
         // ask the player if he wants to see the rules, else explain the actions
         display.HelpConsole();

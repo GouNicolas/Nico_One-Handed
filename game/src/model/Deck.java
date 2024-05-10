@@ -5,7 +5,7 @@ import java.util.Collections;
 /**
  * Represents a deck of cards.
  */
-public class Deck extends ListOfCards {
+public class Deck implements ListOfCards {
     private ArrayList<Card> deck;
     
     /**
@@ -15,9 +15,9 @@ public class Deck extends ListOfCards {
         deck = new ArrayList<Card>();
     }
     /**
+     * Constructs a deck from a string representation.
      * @param deckString
      */
-    
     public Deck(String deckString) {
         deck = new ArrayList<Card>();
         for (String cardString : deckString.split(";")) {
@@ -26,13 +26,6 @@ public class Deck extends ListOfCards {
         }
     }
 
-    /**
-     * Returns the deck of cards.
-     * @return the deck of cards
-     */
-    public ArrayList<Card> getDeck(){
-        return deck;
-    }
     
     /**
      * Initializes the deck with a standard set of 52 cards and shuffles them.
@@ -44,7 +37,7 @@ public class Deck extends ListOfCards {
                 deck.add(tempCard);
             }
         }
-        Collections.shuffle(deck);
+        shuffleCards();
     }
 
     /**
@@ -90,6 +83,27 @@ public class Deck extends ListOfCards {
             str += card.toString() + ";";
         }
         return str;
+    }
+    @Override
+    public ArrayList<Card> getCards() {
+        return deck;
+    }
+
+    @Override
+    public void addCard(Card card) {
+        deck.add(card);
+    }
+    @Override
+    public void removeCard(Card card) {
+        deck.remove(card);
+    }
+    @Override
+    public Card getCard(int index) {
+        return deck.get(index);
+    }
+    @Override
+    public void shuffleCards() {
+        Collections.shuffle(deck);
     }
 
     

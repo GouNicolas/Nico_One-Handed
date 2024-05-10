@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * The Discard class represents a discard pile of cards in a card game.
  * It extends the ListOfCards class and provides methods to add, remove, and access cards in the discard pile.
  */
-public class Discard extends ListOfCards {
+public class Discard implements ListOfCards {
     private ArrayList<Card> discard;
     
     /**
@@ -47,21 +47,6 @@ public class Discard extends ListOfCards {
         return discard.size();
     }
 
-    /**
-     * Returns the size of the discard pile.
-     * @return the size of the discard pile
-     */
-    public int getDiscardSize() {
-        return discard.size();
-    }
-
-    /**
-     * Returns the list of cards in the discard pile.
-     * @return the list of cards in the discard pile
-     */
-    public ArrayList<Card> getDiscard() {
-        return discard;
-    }
 
     /**
      * Clears the discard pile, removing all cards.
@@ -80,13 +65,6 @@ public class Discard extends ListOfCards {
     }
 
     /**
-     * Displays the top card in the discard pile.
-     */
-    public void displayTopCard() {
-        System.out.println(discard.get(discard.size() - 1));
-    }
-
-    /**
      * Returns a string representation of the discard.
      *
      * @return a string representation of the discard
@@ -97,6 +75,15 @@ public class Discard extends ListOfCards {
             str += card.toString() + ";";
         }
         return str;
+    }
+    @Override
+    public ArrayList<Card> getCards() {
+        return discard;
+    }
+    @Override
+    public void shuffleCards() {
+        // do nothing
+        throw new UnsupportedOperationException("Cannot shuffle the discard pile.");
     }
 
 }

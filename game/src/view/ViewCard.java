@@ -1,6 +1,7 @@
 package view;
 import java.util.Map;
 
+
 import javax.swing.ImageIcon;
 
 import model.Card;
@@ -9,32 +10,32 @@ import model.Suit;
 
 
 public class ViewCard extends Card{
-    public ImageIcon image;
+    public String imagePath;
     public static final Map<Rank, String> rankMap = Map.ofEntries(
-        Map.entry(Rank.ace, "A"),
-        Map.entry(Rank.two, "2"),
-        Map.entry(Rank.three, "3"),
-        Map.entry(Rank.four, "4"),
-        Map.entry(Rank.five, "5"),
-        Map.entry(Rank.six, "6"),
-        Map.entry(Rank.seven, "7"),
-        Map.entry(Rank.eight, "8"),
-        Map.entry(Rank.nine, "9"),
-        Map.entry(Rank.ten, "10"),
-        Map.entry(Rank.jack, "J"),
-        Map.entry(Rank.queen, "Q"),
-        Map.entry(Rank.king, "K")
+        Map.entry(Rank.ACE, "A"),
+        Map.entry(Rank.TWO, "2"),
+        Map.entry(Rank.THREE, "3"),
+        Map.entry(Rank.FOUR, "4"),
+        Map.entry(Rank.FIVE, "5"),
+        Map.entry(Rank.SIX, "6"),
+        Map.entry(Rank.SEVEN, "7"),
+        Map.entry(Rank.EIGHT, "8"),
+        Map.entry(Rank.NINE, "9"),
+        Map.entry(Rank.TEN, "10"),
+        Map.entry(Rank.JACK, "J"),
+        Map.entry(Rank.QUEEN, "Q"),
+        Map.entry(Rank.KING, "K")
     );
     
     
     public static final Map<Suit, String> suitMap = Map.of(
-        Suit.clubs, "C",
-        Suit.diamonds, "D",
-        Suit.hearts, "H",
-        Suit.spades, "S"
+        Suit.SPADES, "S",
+        Suit.HEARTS, "H",
+        Suit.DIAMONDS, "D",
+        Suit.CLUBS, "C"
     );
-    public ViewCard(Suit suit, Rank rank){
+    public ViewCard(Rank rank, Suit suit){
         super(rank, suit);
-        image = new ImageIcon("game/resources/images/cards/"+rankMap.get(rank)+suitMap.get(suit)+".png");
+        imagePath = "/resources/"+rankMap.get(rank)+suitMap.get(suit)+".png";
     }
 }
