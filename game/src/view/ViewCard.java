@@ -2,8 +2,6 @@ package view;
 import java.util.Map;
 
 
-import javax.swing.ImageIcon;
-
 import model.Card;
 import model.Rank;
 import model.Suit;

@@ -261,6 +261,7 @@ public class Game {
                 case "Close":
                     saveGame();
                     run = false;
+                    System.exit(0);
                     break;
                 case "Help":
                     display.HelpConsole();
