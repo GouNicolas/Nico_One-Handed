@@ -197,12 +197,6 @@ public class Game {
                 return true;
             }
         }
-        else {
-            // The game is over if the discard pile has 52 cards
-            if(discard.length() == 52){
-                return true;
-            }
-        }
         // The game is not over
         return false;
     }
@@ -271,7 +265,6 @@ public class Game {
                 run = false;
                 display.GameOver();
                 display.displayScore(score);
-                display.displayHand(hand);
                 System.exit(0);
             }
         }

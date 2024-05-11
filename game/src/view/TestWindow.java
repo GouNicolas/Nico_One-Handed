@@ -6,12 +6,15 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,6 +24,8 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import model.Game;
+import model.Rank;
+import model.Suit;
 
 
 public class TestWindow extends JFrame{
@@ -38,9 +43,10 @@ public class TestWindow extends JFrame{
 	protected Game game;
 
 	//constants for the cosmetics
-	protected Color COLOR_CREAM = new Color(173, 136, 198);
-	protected Color COLOR_PURPLE = new Color(116, 105, 182);
+	protected Color COLOR_CREAM = new Color(255, 230, 230);
+	protected Color COLOR_PINK_PURPLE = new Color(225, 175, 209);
 	protected Color COLOR_LIGHT_PURPLE = new Color(173, 136, 198);
+	protected Color COLOR_PURPLE = new Color(116, 105, 182);
 	protected Font FONT_TEXT = new Font("Carlito", Font.PLAIN, 20);
 	
 	
@@ -68,7 +74,16 @@ public class TestWindow extends JFrame{
 		game = new Game();
 
 		// Initialize the panels
-		handPanel = new JPanel();
+		ImageIcon backgroundImage = new ImageIcon(TestWindow.class.getResource("/resources/window_bg.png"));
+		Image img = backgroundImage.getImage();
+
+		JPanel handPanel = new JPanel() {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(img, 0, 0, null);
+			}
+		};
 		deckPanel = new JPanel();
 		discardPanel = new JPanel();
 		scorePanel = new JPanel();
@@ -105,68 +120,38 @@ public class TestWindow extends JFrame{
 			}
 		}
 		
-/*
-		// Set the background image of the window
-		ImageIcon backgroundImage = new ImageIcon(TestWindow.class.getResource("/resources/window_bg.png"));
-		JLabel backgroundLabel = new JLabel(backgroundImage);
-		backgroundLabel.setBounds(0, 0, this.getWidth(), this.getHeight());
-		backgroundLabel.setOpaque(true);
-		backgroundLabel.setLayout(new BorderLayout());
-		this.setContentPane(backgroundLabel); */
-		
-		
 		// configure the panel for the buttons
 		buttonsPanel.setMinimumSize(new Dimension(1200,200));
 		buttonsPanel.setLayout(new FlowLayout());
-		this.add(buttonsPanel, BorderLayout.SOUTH);
+		buttonsPanel.setBackground(COLOR_CREAM);
 
-		// configure the panel for the hand
-		//handPanel.setMinimumSize(new Dimension(4/6*getWidth(), 4/6*getHeight()));
-		/* FlowLayout layout = new FlowLayout();
-		layout.setHgap(10);
-		layout.setVgap(20);
-		handPanel.setLayout(layout);
-		handPanel.setVisible(true);
-		this.add(handPanel, BorderLayout.CENTER); */
-
-		handPanel.setVisible(true);
-		System.out.println("handPanel visibility: " + handPanel.isVisible());
-		// Add elements to the panel
-		handPanel.add(new JLabel("Card 1"));
-		System.out.println("Added Card 1");
-		handPanel.add(new JLabel("Card 2"));
-		System.out.println("Added Card 2");
-
-		// Add the panel to the frame
-		this.add(handPanel, BorderLayout.CENTER);
-		System.out.println("Added handPanel to frame");
 
 		// configure the panel for the score
 		scorePanel.setMinimumSize(new Dimension(1200, 50));
 		scorePanel.setLayout(new FlowLayout());
-		scorePanel.setBackground(COLOR_CREAM);
-		this.add(scorePanel, BorderLayout.NORTH);
+		scorePanel.setBackground(COLOR_PURPLE);
 
-		// create a panel for the deck
+		// configure the panel for the deck
 		deckPanel.setBackground(COLOR_CREAM);
 		deckPanel.setLayout(new FlowLayout());
 		deckPanel.setPreferredSize(new Dimension(250,400));
-		getContentPane().add(deckPanel, BorderLayout.WEST);
 
-		// create a panel for the discard pile
+		// configure the panel for the hand
+		handPanel.setBorder(BorderFactory.createLineBorder(COLOR_PINK_PURPLE, 2));
+
+		// configure the panel for the discard pile
 		discardPanel.setBackground(COLOR_CREAM);
 		discardPanel.setPreferredSize(new Dimension(220, 328));
 		discardPanel.setLayout(new FlowLayout());
-		getContentPane().add(discardPanel, BorderLayout.EAST);
 
-		// create buttons and set their properties
+		// configure buttons and set their properties
 		showback = new JButton("back of a card");
 		showback.setFont(FONT_TEXT);
 		showback.setSize(new Dimension(300,100));
 		getContentPane().add(showback);
 		
 		// create a card
-	/* 	cardDisplay1 = new JLabel();
+		cardDisplay1 = new JLabel();
 		ViewCard cardKS = new ViewCard(Rank.KING, Suit.SPADES);
 		cardDisplay1.setIcon(new ImageIcon(TestWindow.class.getResource(cardKS.imagePath)));
 		cardDisplay1.setSize(200, 328);
@@ -176,7 +161,7 @@ public class TestWindow extends JFrame{
 		handPanel.add(cardDisplay1);
 
 		handPanel.validate();
-		handPanel.repaint(); */
+		handPanel.repaint();
 
 
 		// add the buttons to the panel
@@ -202,7 +187,14 @@ public class TestWindow extends JFrame{
 		discardDisplay();
 
 		// display the hand
-		//displayHand();
+		displayHand();
+
+		// Add the panel to the frame
+		this.add(buttonsPanel, BorderLayout.SOUTH);
+		this.add(handPanel, BorderLayout.CENTER);
+		this.add(scorePanel, BorderLayout.NORTH);
+		getContentPane().add(deckPanel, BorderLayout.WEST);
+		getContentPane().add(discardPanel, BorderLayout.EAST);
 
 		// make the window visible
 		this.setVisible(true);
@@ -245,18 +237,17 @@ public class TestWindow extends JFrame{
 		for (int i = 0; i < game.getHand().getHandSize(); i++) {
 			ViewCard card = new ViewCard(game.getHand().getCard(i).getRank(), game.getHand().getCard(i).getSuit());
 			cardImages.add(card.imagePath);
+			System.out.println(card.imagePath);
 		}
+		// clear the hand panel
+		//TODOhandPanel.removeAll();
+		// display the cards in the hand
 		for (String cardImage : cardImages) {
-			try {
-				BufferedImage card = ImageIO.read(getClass().getResource(cardImage));
-				JLabel cardLabel = new JLabel(new ImageIcon(card));
-				handPanel.add(cardLabel);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+
+			JLabel cardLabel = new JLabel(new ImageIcon(TestWindow.class.getResource(cardImage)));
+			cardLabel.setSize(200, 328);
+			System.out.println(cardImage);
+			handPanel.add(cardLabel);
 		}
-		
-		handPanel.validate();
-		handPanel.repaint();
 	}
 }
