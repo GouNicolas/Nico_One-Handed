@@ -240,7 +240,7 @@ public class TestWindow extends JFrame{
 			System.out.println(card.imagePath);
 		}
 		// clear the hand panel
-		//TODOhandPanel.removeAll();
+		// TODO handPanel.removeAll();
 		// display the cards in the hand
 		for (String cardImage : cardImages) {
 
