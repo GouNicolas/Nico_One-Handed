@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import view.ConsoleDisplay;
-
+import view.GameWindow;
 
 public class Game {
     private Deck deck;
@@ -16,7 +16,7 @@ public class Game {
     private int score;
     private int jokers_left;
     private ConsoleDisplay display;
-
+    private GameWindow window;
 
     public Game(){
         deck = new Deck();
@@ -269,4 +269,5 @@ public class Game {
             }
         }
     }
+
 }

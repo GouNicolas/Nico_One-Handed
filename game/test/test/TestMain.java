@@ -1,25 +1,17 @@
 package test;
 
 import model.Game;
-import view.TestWindow;
+import view.GameWindow;
 
 public class TestMain {
     public static void main(String[] args){
         Game g = new Game();
-        
-        
+        g.loadGame();
+
         // launch the game in the GUI
-        
-        new TestWindow();
-        
-        
+        new GameWindow(g);
 
         // launch the in the console
-        g.playGameConsole();
-
-        
-
-        
+        //g.playGameConsole();
     }
-
 }
