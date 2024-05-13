@@ -1,15 +1,16 @@
 package view;
 
-// AWT
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 // other
@@ -33,7 +34,10 @@ import model.Game;
 import model.Rank;
 import model.Suit;
 
-
+/**
+ * Class to create the game window
+ * 
+ */
 public class GameWindow extends JFrame{
 	protected static final long serialVersionUID = 2L;
 
@@ -49,7 +53,11 @@ public class GameWindow extends JFrame{
 	protected Color COLOR_PURPLE = new Color(116, 105, 182);
 	protected Font FONT_TEXT = new Font("Carlito", Font.PLAIN, 20);
 	protected Font FONT_TEXT_BIG = new Font("Carlito", Font.BOLD, 24);
-	
+	protected Dimension LATERAL_PANEL_DIMENSION = new Dimension(220, 600);
+	protected Dimension HAND_PANEL_DIMENSION = new Dimension(1160, 600);
+	protected Dimension BUTTONS_PANEL_DIMENSION = new Dimension(1600, 200);
+	protected Dimension INFO_PANEL_DIMENSION = new Dimension(1600, 80);
+
 	// window elements
 	protected JPanel handPanel;
 	protected JPanel deckPanel;
@@ -67,6 +75,8 @@ public class GameWindow extends JFrame{
 
 	protected JLabel cardDisplay1;
 	protected JLabel cardDisplay2;
+
+
 
 	/**
 	 * Constructor
@@ -86,7 +96,7 @@ public class GameWindow extends JFrame{
 				g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
 			}
 		};
-	
+		
 		deckPanel = new JPanel();
 		discardPanel = new JPanel();
 		InfoPanel = new JPanel();
@@ -104,16 +114,61 @@ public class GameWindow extends JFrame{
 		this.setResizable(true);
 		this.setMinimumSize(new Dimension(1600, 900));
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		this.setLayout(new BorderLayout());
+		this.setLayout(new GridBagLayout());
 		this.setLocationRelativeTo(null);
+		
 
 		// Add the panel to the window
-		this.add(buttonsPanel, BorderLayout.SOUTH);
-		this.add(InfoPanel, BorderLayout.NORTH);
-		this.add(deckPanel, BorderLayout.WEST);
-		this.add(discardPanel, BorderLayout.EAST);
-		this.add(handPanel, BorderLayout.CENTER);
+		// we use a GridBagLayout to mimic the BorderLayout because we had issues with the BorderLayout not displaying the panels correctly
+		// Create the layout and constraints
+		GridBagLayout layout = new GridBagLayout();
+		GridBagConstraints constraints = new GridBagConstraints();
+		this.setLayout(layout);
+		// Set the insets to 0
+		constraints.insets = new Insets(0, 0, 0, 0);
+		// Mimic BorderLayout.NORTH for InfoPanel
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		constraints.gridwidth = 3;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.weightx = 1.0;
+		constraints.weighty = 0;
+		this.add(InfoPanel, constraints);
 
+		// Mimic BorderLayout.WEST for deckPanel
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		constraints.gridwidth = 1;
+		constraints.fill = GridBagConstraints.VERTICAL;
+		constraints.weightx = 0;
+		constraints.weighty = 1.0;
+		this.add(deckPanel, constraints);
+
+		// Mimic BorderLayout.CENTER for handPanel
+		constraints.gridx = 1;
+		constraints.gridy = 1;
+		constraints.fill = GridBagConstraints.BOTH;
+		constraints.weightx = 1.0;
+		constraints.weighty = 1.0;
+		this.add(handPanel, constraints);
+
+		// Mimic BorderLayout.EAST for discardPanel
+		constraints.gridx = 2;
+		constraints.gridy = 1;
+		constraints.gridwidth = 1;
+		constraints.fill = GridBagConstraints.VERTICAL;
+		constraints.weighty = 1.0;
+		constraints.weightx = 0;
+		this.add(discardPanel, constraints);
+
+		// Mimic BorderLayout.SOUTH for buttonsPanel
+		constraints.gridx = 0;
+		constraints.gridy = 2;
+		constraints.gridwidth = 3;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.weighty = 0;
+		this.add(buttonsPanel, constraints);
+		
 
 		// add a new look and feel to the window
 		UIManager.put("nimbusBase", COLOR_PURPLE);
@@ -131,13 +186,13 @@ public class GameWindow extends JFrame{
 		}
 		
 		// configure the panel for the buttons
-		buttonsPanel.setMinimumSize(new Dimension(1600,200));
+		buttonsPanel.setMinimumSize(BUTTONS_PANEL_DIMENSION);
 		buttonsPanel.setLayout(new GridLayout());
 		buttonsPanel.setBackground(COLOR_CREAM);
 
 
 		// configure the panel for the score and the jokers left
-		InfoPanel.setMinimumSize(new Dimension(1600, 80));
+		InfoPanel.setMinimumSize(INFO_PANEL_DIMENSION);
 		FlowLayout infoLayout = new FlowLayout();
 		infoLayout.setHgap(100);
 		infoLayout.setVgap(20);
@@ -149,16 +204,16 @@ public class GameWindow extends JFrame{
 		// configure the panel for the deck
 		deckPanel.setBackground(COLOR_CREAM);
 		deckPanel.setLayout(new FlowLayout());
-		deckPanel.setPreferredSize(new Dimension(220,400));
+		deckPanel.setMinimumSize(LATERAL_PANEL_DIMENSION);
 
 		// configure the panel for the hand
-		handPanel.setLayout(new FlowLayout());
-		handPanel.setPreferredSize(new Dimension(1200,400));
+		handPanel.setMinimumSize(new Dimension(1000,400));
 		handPanel.setBorder(BorderFactory.createLineBorder(COLOR_PINK_PURPLE, 4));
+		handPanel.setLayout(new FlowLayout());
 
 		// configure the panel for the discard pile
 		discardPanel.setBackground(COLOR_CREAM);
-		discardPanel.setPreferredSize(new Dimension(220, 400));
+		discardPanel.setMinimumSize(LATERAL_PANEL_DIMENSION);
 		discardPanel.setLayout(new FlowLayout());
 		
 		// Tests
@@ -170,13 +225,10 @@ public class GameWindow extends JFrame{
 		cardDisplay2 = new JLabel("test");
 		handPanel.add(cardDisplay2);
 		handPanel.add(cardDisplay1);
-		
+
 		// end of tests
 
-		
 
-		handPanel.setBackground(COLOR_PURPLE);
-		
 		// deckdisplay
 		deckDisplay();
 
@@ -191,9 +243,9 @@ public class GameWindow extends JFrame{
 
 		// debug
 		debug();
-		
+
 		// display the hand
-		//displayHand();
+		displayHand();
 
 		// make the window visible
 		this.setVisible(true);
@@ -280,6 +332,7 @@ public class GameWindow extends JFrame{
 	 * Function used to track some really weird NPException that not even the debugger could help with
 	 */
 	public void debug() {
+		System.out.println(handPanel);
 		System.out.println("Debugging");
 		if (handPanel == null) {
 			System.out.println("handPanel is null");
@@ -339,13 +392,7 @@ public class GameWindow extends JFrame{
 
 	}
 	protected void clearHand() {
-		for (Component component : handPanel.getComponents()) {
-			if (component instanceof JLabel){
-				handPanel.remove(component);
-			}
-		}
-		handPanel.revalidate();
-		handPanel.repaint();
+		handPanel.removeAll();
 	}
 	protected void displayHand(){
 		System.out.println("Displaying hand");
@@ -364,7 +411,7 @@ public class GameWindow extends JFrame{
 			cardImages.add(card.imagePath);
 		}
 		// clear the hand panel
-		//clearHand();
+		clearHand();
 	
 		// display the cards in the hand
 		for (String cardImage : cardImages) {
@@ -375,8 +422,8 @@ public class GameWindow extends JFrame{
 			JLabel cardLabel = new JLabel(scaledImageIcon);
 			handPanel.add(cardLabel);
 		}
-		/* handPanel.revalidate();
-		handPanel.repaint(); */
+		handPanel.revalidate();
+		handPanel.repaint();
 
 	}
 	
