@@ -29,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import model.Card;
 // import model classes
 import model.Game;
 import model.Rank;
@@ -168,7 +169,6 @@ public class GameWindow extends JFrame{
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.weighty = 0;
 		this.add(buttonsPanel, constraints);
-		
 
 		// add a new look and feel to the window
 		UIManager.put("nimbusBase", COLOR_PURPLE);
@@ -190,7 +190,6 @@ public class GameWindow extends JFrame{
 		buttonsPanel.setLayout(new GridLayout());
 		buttonsPanel.setBackground(COLOR_CREAM);
 
-
 		// configure the panel for the score and the jokers left
 		InfoPanel.setMinimumSize(INFO_PANEL_DIMENSION);
 		FlowLayout infoLayout = new FlowLayout();
@@ -203,7 +202,7 @@ public class GameWindow extends JFrame{
 
 		// configure the panel for the deck
 		deckPanel.setBackground(COLOR_CREAM);
-		deckPanel.setLayout(new FlowLayout());
+		deckPanel.setLayout(new GridBagLayout());
 		deckPanel.setMinimumSize(LATERAL_PANEL_DIMENSION);
 
 		// configure the panel for the hand
@@ -215,19 +214,6 @@ public class GameWindow extends JFrame{
 		discardPanel.setBackground(COLOR_CREAM);
 		discardPanel.setMinimumSize(LATERAL_PANEL_DIMENSION);
 		discardPanel.setLayout(new FlowLayout());
-		
-		// Tests
-		cardDisplay1 = new JLabel();
-		ViewCard cardKS = new ViewCard(Rank.KING, Suit.SPADES);
-		cardDisplay1.setIcon(new ImageIcon(GameWindow.class.getResource(cardKS.imagePath)));
-		cardDisplay1.setSize(200, 328);
-
-		cardDisplay2 = new JLabel("test");
-		handPanel.add(cardDisplay2);
-		handPanel.add(cardDisplay1);
-
-		// end of tests
-
 
 		// deckdisplay
 		deckDisplay();
@@ -291,14 +277,24 @@ public class GameWindow extends JFrame{
 		cardDisplay1.setIcon(new ImageIcon(GameWindow.class.getResource("/resources/cardback.png")));
 	}
 	protected void deckDisplay() {
+		// clear the deck panel
+		deckPanel.removeAll();
+		// display the remaining cards in the deck
 		if (game.getDeck().length() > 0) {
 			JLabel deckLabel = new JLabel("Remaining Cards: " + game.getDeck().length());
 			deckLabel.setFont(FONT_TEXT);
-			JLabel one_card_of_the_deck = new JLabel(new ImageIcon(GameWindow.class.getResource("/resources/cardback.png")));
-			one_card_of_the_deck.setSize(200, 328);
-			deckPanel.add(one_card_of_the_deck);
-			deckPanel.add(deckLabel);
+			JLabel card_back = new JLabel(new ImageIcon(GameWindow.class.getResource("/resources/cardback.png")));
+			card_back.setSize(200, 328);
+			GridBagConstraints constraints = new GridBagConstraints();
+
+			// Add card_back at (0, 0)
+			deckPanel.add(card_back, constraints);
+
+			// Add deckLabel at (0, 1)
+			constraints.gridy = 1;
+			deckPanel.add(deckLabel, constraints);
 		}
+		// display "No card" if the deck is empty
 		else {
 			JLabel no_card = new JLabel("No card");
 			no_card.setBounds(0, 0, 200, 328);
@@ -316,14 +312,23 @@ public class GameWindow extends JFrame{
 		InfoPanel.add(scoreLabel);
 		InfoPanel.add(jokersLabel);
 	}
+	protected void playRank() {
+		
+	}
 	protected void discardDisplay() {
+		// remove all the components from the discard panel
+		discardPanel.removeAll();
+		// display "No card" if the discard pile is empty
 		if (game.getDiscard().length() == 0) {
 			JLabel no_card = new JLabel("No card");
 			no_card.setFont(FONT_TEXT);
 			no_card.setSize(getPreferredSize());
 			discardPanel.add(no_card);
 		}
-		else {ViewCard card = new ViewCard(game.getDiscard().getCard(0).getRank(), game.getDiscard().getCard(0).getSuit());
+		// display the top card of the discard pile
+		else {
+			Card last_card = game.getDiscard().getCard(game.getDiscard().length()-1);
+			ViewCard card = new ViewCard(last_card.getRank(), last_card.getSuit());
 			discardPanel.removeAll();
 			discardPanel.add(new JLabel(new ImageIcon(GameWindow.class.getResource(card.imagePath))));
 		}
@@ -424,7 +429,8 @@ public class GameWindow extends JFrame{
 		}
 		handPanel.revalidate();
 		handPanel.repaint();
-
+		deckDisplay();
+		discardDisplay();
 	}
 	
 }
