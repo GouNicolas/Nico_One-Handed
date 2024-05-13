@@ -1,5 +1,6 @@
 package view;
 
+// AWT
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -7,16 +8,16 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+// other
 import java.io.IOException;
 import java.util.ArrayList;
-import java.awt.event.ActionListener;
 
 import javax.imageio.ImageIO;
-import javax.swing.AbstractButton;
+// javax.swing
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,8 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+// import model classes
 import model.Game;
-import model.Hand;
 import model.Rank;
 import model.Suit;
 
@@ -42,28 +43,30 @@ public class GameWindow extends JFrame{
 	protected Game game = new Game();
 
 	//constants for the cosmetics
-	protected Color COLOR_CREAM = new Color(255, 230, 230);
+	protected Color COLOR_CREAM = new Color(250, 225, 225);
 	protected Color COLOR_PINK_PURPLE = new Color(225, 175, 209);
 	protected Color COLOR_LIGHT_PURPLE = new Color(173, 136, 198);
 	protected Color COLOR_PURPLE = new Color(116, 105, 182);
 	protected Font FONT_TEXT = new Font("Carlito", Font.PLAIN, 20);
-	private static final Font FONT_TEXT_BIG = new Font("Carlito", Font.BOLD, 24);
+	protected Font FONT_TEXT_BIG = new Font("Carlito", Font.BOLD, 24);
 	
 	// window elements
 	protected JPanel handPanel;
 	protected JPanel deckPanel;
 	protected JPanel discardPanel;
-	protected JPanel scorePanel;
+	protected JPanel InfoPanel;
 	protected JPanel buttonsPanel;
+	protected ImageIcon backgroundImage;
 
 	// game elements
 	protected JButton showback;
 	protected JButton buttonDraw;
 	protected JButton buttonRank;
 	protected JButton buttonSuits;
-
+	protected JButton buttonJoker;
 
 	protected JLabel cardDisplay1;
+	protected JLabel cardDisplay2;
 
 	/**
 	 * Constructor
@@ -72,10 +75,21 @@ public class GameWindow extends JFrame{
 		// Initialize the game
 		game = g;
 		// Initialize the panels
-		
+
+		// set the background image for the hand panel
+		backgroundImage = new ImageIcon(GameWindow.class.getResource("/resources/window_bg.png"));
+		Image img = backgroundImage.getImage();
+		handPanel = new JPanel() { // Anonymous class to override the paintComponent method
+			@Override
+			protected void paintComponent(Graphics g) { 
+				super.paintComponent(g);
+				g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+			}
+		};
+	
 		deckPanel = new JPanel();
 		discardPanel = new JPanel();
-		scorePanel = new JPanel();
+		InfoPanel = new JPanel();
 		buttonsPanel = new JPanel();
 
 		// Set the window properties
@@ -92,7 +106,14 @@ public class GameWindow extends JFrame{
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setLayout(new BorderLayout());
 		this.setLocationRelativeTo(null);
-		
+
+		// Add the panel to the window
+		this.add(buttonsPanel, BorderLayout.SOUTH);
+		this.add(InfoPanel, BorderLayout.NORTH);
+		this.add(deckPanel, BorderLayout.WEST);
+		this.add(discardPanel, BorderLayout.EAST);
+		this.add(handPanel, BorderLayout.CENTER);
+
 
 		// add a new look and feel to the window
 		UIManager.put("nimbusBase", COLOR_PURPLE);
@@ -110,15 +131,20 @@ public class GameWindow extends JFrame{
 		}
 		
 		// configure the panel for the buttons
-		buttonsPanel.setMinimumSize(new Dimension(1200,200));
+		buttonsPanel.setMinimumSize(new Dimension(1600,200));
 		buttonsPanel.setLayout(new GridLayout());
 		buttonsPanel.setBackground(COLOR_CREAM);
 
 
-		// configure the panel for the score
-		scorePanel.setMinimumSize(new Dimension(1200, 50));
-		scorePanel.setLayout(new FlowLayout());
-		scorePanel.setBackground(COLOR_PURPLE);
+		// configure the panel for the score and the jokers left
+		InfoPanel.setMinimumSize(new Dimension(1600, 80));
+		FlowLayout infoLayout = new FlowLayout();
+		infoLayout.setHgap(100);
+		infoLayout.setVgap(20);
+		InfoPanel.setLayout(infoLayout);
+		InfoPanel.setBackground(COLOR_PURPLE);
+		InfoPanel.setAlignmentY(CENTER_ALIGNMENT);
+		
 
 		// configure the panel for the deck
 		deckPanel.setBackground(COLOR_CREAM);
@@ -126,19 +152,9 @@ public class GameWindow extends JFrame{
 		deckPanel.setPreferredSize(new Dimension(220,400));
 
 		// configure the panel for the hand
-		ImageIcon backgroundImage = new ImageIcon(GameWindow.class.getResource("/resources/window_bg.png"));
-		Image img = backgroundImage.getImage();
-
-		// set the background image for the hand panel
-		JPanel handPanel = new JPanel() {
-			@Override
-			protected void paintComponent(Graphics g) { // Anonymous class to override the paintComponent method
-				super.paintComponent(g);
-				g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
-			}
-		};
+		handPanel.setLayout(new FlowLayout());
+		handPanel.setPreferredSize(new Dimension(1200,400));
 		handPanel.setBorder(BorderFactory.createLineBorder(COLOR_PINK_PURPLE, 4));
-		handPanel.setPreferredSize(new Dimension(1200,500));
 
 		// configure the panel for the discard pile
 		discardPanel.setBackground(COLOR_CREAM);
@@ -151,12 +167,15 @@ public class GameWindow extends JFrame{
 		cardDisplay1.setIcon(new ImageIcon(GameWindow.class.getResource(cardKS.imagePath)));
 		cardDisplay1.setSize(200, 328);
 
-		JLabel cardDisplay2 = new JLabel("test");
+		cardDisplay2 = new JLabel("test");
 		handPanel.add(cardDisplay2);
 		handPanel.add(cardDisplay1);
-
+		
 		// end of tests
 
+		
+
+		handPanel.setBackground(COLOR_PURPLE);
 		
 		// deckdisplay
 		deckDisplay();
@@ -164,22 +183,18 @@ public class GameWindow extends JFrame{
 		// discard display
 		discardDisplay();
 
-		// display the hand
-		//displayHand();
-
 		// score display
-		scoreDisplay();
+		infoDisplay();
 
 		// add the buttons to the buttons panel
 		addActionButtons();
 
-		// Add the panel to the frame
-		this.add(buttonsPanel, BorderLayout.SOUTH);
-		this.add(handPanel, BorderLayout.CENTER);
-		this.add(scorePanel, BorderLayout.NORTH);
-		getContentPane().add(deckPanel, BorderLayout.WEST);
-		getContentPane().add(discardPanel, BorderLayout.EAST);
+		// debug
+		debug();
 		
+		// display the hand
+		//displayHand();
+
 		// make the window visible
 		this.setVisible(true);
 	}
@@ -238,11 +253,16 @@ public class GameWindow extends JFrame{
 			deckPanel.add(no_card);
 		}
 	}
-	protected void scoreDisplay() {
+	protected void infoDisplay() {
+		// display the score and the jokers left
 		JLabel scoreLabel = new JLabel("Score: " + game.getScore());
 		scoreLabel.setFont(FONT_TEXT_BIG);
 		scoreLabel.setForeground(Color.WHITE);
-		scorePanel.add(scoreLabel);
+		JLabel jokersLabel = new JLabel("Jokers left: " + game.getJokersLeft());
+		jokersLabel.setFont(FONT_TEXT_BIG);
+		jokersLabel.setForeground(Color.WHITE);
+		InfoPanel.add(scoreLabel);
+		InfoPanel.add(jokersLabel);
 	}
 	protected void discardDisplay() {
 		if (game.getDiscard().length() == 0) {
@@ -256,7 +276,80 @@ public class GameWindow extends JFrame{
 			discardPanel.add(new JLabel(new ImageIcon(GameWindow.class.getResource(card.imagePath))));
 		}
 	}
+	/*
+	 * Function used to track some really weird NPException that not even the debugger could help with
+	 */
+	public void debug() {
+		System.out.println("Debugging");
+		if (handPanel == null) {
+			System.out.println("handPanel is null");
+		} else {
+			System.out.println("handPanel is not null");
+		}
+		if (game.getHand() == null) {
+			System.out.println("game.getHand() is null");
+		} else {
+			System.out.println("game.getHand() is not null");
+		}
+		if (deckPanel == null) {
+			System.out.println("deckPanel is null");
+		} else {
+			System.out.println("deckPanel is not null");
+		}
+		if (discardPanel == null) {
+			System.out.println("discardPanel is null");
+		} else {
+			System.out.println("discardPanel is not null");
+		}
+		if (InfoPanel == null) {
+			System.out.println("InfoPanel is null");
+		} else {
+			System.out.println("InfoPanel is not null");
+		}
+		if (buttonsPanel == null) {
+			System.out.println("buttonsPanel is null");
+		} else {
+			System.out.println("buttonsPanel is not null");
+		}
+		if (buttonDraw == null) {
+			System.out.println("buttonDraw is null");
+		} else {
+			System.out.println("buttonDraw is not null");
+		}
+		if (showback == null) {
+			System.out.println("showback is null");
+		} else {
+			System.out.println("showback is not null");
+		}
+		if (buttonRank == null) {
+			System.out.println("buttonRank is null");
+		} else {
+			System.out.println("buttonRank is not null");
+		}
+		if (buttonSuits == null) {
+			System.out.println("buttonSuits is null");
+		} else {
+			System.out.println("buttonSuits is not null");
+		}
+		if (cardDisplay1 == null) {
+			System.out.println("cardDisplay1 is null");
+		} else {
+			System.out.println("cardDisplay1 is not null");
+		}
+
+	}
+	protected void clearHand() {
+		for (Component component : handPanel.getComponents()) {
+			if (component instanceof JLabel){
+				handPanel.remove(component);
+			}
+		}
+		handPanel.revalidate();
+		handPanel.repaint();
+	}
 	protected void displayHand(){
+		System.out.println("Displaying hand");
+		debug();
 		// list the cards in the hand
 		ArrayList<String> cardImages = new ArrayList<String>();
 		int number_of_cards_to_display;
@@ -269,10 +362,9 @@ public class GameWindow extends JFrame{
 		for (int i = 0; i < number_of_cards_to_display; i++) {
 			ViewCard card = new ViewCard(game.getHand().getCard(i).getRank(), game.getHand().getCard(i).getSuit());
 			cardImages.add(card.imagePath);
-			System.out.println(card.imagePath);
 		}
 		// clear the hand panel
-		handPanel.removeAll();
+		//clearHand();
 	
 		// display the cards in the hand
 		for (String cardImage : cardImages) {
@@ -281,9 +373,12 @@ public class GameWindow extends JFrame{
 			Image scaledImage = image.getScaledInstance(200, 328, Image.SCALE_SMOOTH);
 			ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
 			JLabel cardLabel = new JLabel(scaledImageIcon);
-			System.out.println(cardImage);
 			handPanel.add(cardLabel);
 		}
+		/* handPanel.revalidate();
+		handPanel.repaint(); */
+
 	}
+	
 }
 
