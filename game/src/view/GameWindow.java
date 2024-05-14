@@ -32,8 +32,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import model.Card;
 // import model classes
 import model.Game;
-import model.Rank;
-import model.Suit;
 
 /**
  * Class to create the game window
@@ -54,8 +52,8 @@ public class GameWindow extends JFrame{
 	protected Color COLOR_PURPLE = new Color(116, 105, 182);
 	protected Font FONT_TEXT = new Font("Carlito", Font.PLAIN, 20);
 	protected Font FONT_TEXT_BIG = new Font("Carlito", Font.BOLD, 24);
-	protected Dimension LATERAL_PANEL_DIMENSION = new Dimension(220, 600);
-	protected Dimension HAND_PANEL_DIMENSION = new Dimension(1160, 600);
+	protected Dimension LATERAL_PANEL_DIMENSION = new Dimension(240, 400);
+	protected Dimension HAND_PANEL_DIMENSION = new Dimension(900, 400);
 	protected Dimension BUTTONS_PANEL_DIMENSION = new Dimension(1600, 200);
 	protected Dimension INFO_PANEL_DIMENSION = new Dimension(1600, 80);
 
@@ -71,11 +69,15 @@ public class GameWindow extends JFrame{
 	protected JButton showback;
 	protected JButton buttonDraw;
 	protected JButton buttonRank;
-	protected JButton buttonSuits;
+	protected JButton buttonSuit;
 	protected JButton buttonJoker;
 
 	protected JLabel cardDisplay1;
 	protected JLabel cardDisplay2;
+
+
+
+	private JButton buttonClose;
 
 
 
@@ -113,7 +115,7 @@ public class GameWindow extends JFrame{
 			e.printStackTrace();
 		}
 		this.setResizable(true);
-		this.setMinimumSize(new Dimension(1600, 900));
+		this.setMinimumSize(new Dimension(1340, 700));
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setLayout(new GridBagLayout());
 		this.setLocationRelativeTo(null);
@@ -208,27 +210,24 @@ public class GameWindow extends JFrame{
 		// configure the panel for the hand
 		handPanel.setMinimumSize(new Dimension(1000,400));
 		handPanel.setBorder(BorderFactory.createLineBorder(COLOR_PINK_PURPLE, 4));
-		handPanel.setLayout(new FlowLayout());
+		handPanel.setLayout(new GridBagLayout());
 
 		// configure the panel for the discard pile
 		discardPanel.setBackground(COLOR_CREAM);
 		discardPanel.setMinimumSize(LATERAL_PANEL_DIMENSION);
-		discardPanel.setLayout(new FlowLayout());
+		discardPanel.setLayout(new GridBagLayout());
 
 		// deckdisplay
-		deckDisplay();
+		displayDeck();
 
 		// discard display
-		discardDisplay();
+		displayDiscard();
 
 		// score display
-		infoDisplay();
+		displayInfo();
 
 		// add the buttons to the buttons panel
-		addActionButtons();
-
-		// debug
-		debug();
+		addActionButtons();  
 
 		// display the hand
 		displayHand();
@@ -238,25 +237,43 @@ public class GameWindow extends JFrame{
 	}
 	protected void addActionButtons() {
 		// add the buttons to the buttons panel
+		// configure the rank button
+		buttonRank = new JButton("Same Rank");
+		buttonRank.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				playRank();
+			}
+		});
+		// configure the suit button
+		buttonSuit = new JButton("Same Suit");
+		buttonSuit.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				playSuit();
+			}
+		});
 		// configure a draw button
 		buttonDraw = new JButton("Draw");
-		buttonDraw.setFont(FONT_TEXT);
 		buttonDraw.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				game.draw();
-				displayHand();
+				playDraw();
 			}
 		});
-		buttonsPanel.add(buttonDraw);
+		// configure the Joker button
+		buttonJoker = new JButton("Joker");
+		buttonJoker.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playJoker();
+			}
+		});
 		
-		// configure a debug button
-		showback = new JButton("back of a card");
-		showback.setFont(FONT_TEXT);
-		showback.setSize(new Dimension(300,100));
-		getContentPane().add(showback);
-		showback.addActionListener(e -> cardBack(e));
-		buttonsPanel.add(showback);
+		//add the buttons
+		buttonsPanel.add(buttonRank);
+		buttonsPanel.add(buttonSuit);
+		buttonsPanel.add(buttonJoker);
+		buttonsPanel.add(buttonDraw);
 
 		// change font for the buttons in buttonsPanel
 		for (Component component : buttonsPanel.getComponents()) {
@@ -272,36 +289,31 @@ public class GameWindow extends JFrame{
     protected void showWarning(String message) {
         JOptionPane.showMessageDialog(this, message, "Warning", JOptionPane.WARNING_MESSAGE);
     }
-	public void cardBack(ActionEvent e) {
-		System.out.println("Button clicked");
-		cardDisplay1.setIcon(new ImageIcon(GameWindow.class.getResource("/resources/cardback.png")));
-	}
-	protected void deckDisplay() {
+	protected void displayDeck() {
 		// clear the deck panel
 		deckPanel.removeAll();
 		// display the remaining cards in the deck
 		if (game.getDeck().length() > 0) {
 			JLabel deckLabel = new JLabel("Remaining Cards: " + game.getDeck().length());
-			deckLabel.setFont(FONT_TEXT);
+			deckLabel.setFont(FONT_TEXT_BIG);
+			deckLabel.setSize(new Dimension(220,200));
 			JLabel card_back = new JLabel(new ImageIcon(GameWindow.class.getResource("/resources/cardback.png")));
 			card_back.setSize(200, 328);
+			deckPanel.add(card_back);
 			GridBagConstraints constraints = new GridBagConstraints();
-
-			// Add card_back at (0, 0)
-			deckPanel.add(card_back, constraints);
-
-			// Add deckLabel at (0, 1)
-			constraints.gridy = 1;
-			deckPanel.add(deckLabel, constraints);
+			constraints.gridy= 1;
+			deckPanel.add(deckLabel,constraints);
 		}
 		// display "No card" if the deck is empty
 		else {
 			JLabel no_card = new JLabel("No card");
-			no_card.setBounds(0, 0, 200, 328);
+			no_card.setFont(FONT_TEXT_BIG);
+			no_card.setSize(new Dimension(220,200));
 			deckPanel.add(no_card);
 		}
 	}
-	protected void infoDisplay() {
+	protected void displayInfo() {
+		InfoPanel.removeAll();
 		// display the score and the jokers left
 		JLabel scoreLabel = new JLabel("Score: " + game.getScore());
 		scoreLabel.setFont(FONT_TEXT_BIG);
@@ -309,20 +321,126 @@ public class GameWindow extends JFrame{
 		JLabel jokersLabel = new JLabel("Jokers left: " + game.getJokersLeft());
 		jokersLabel.setFont(FONT_TEXT_BIG);
 		jokersLabel.setForeground(Color.WHITE);
+		// add a button 
+		buttonClose = new JButton("Save and Close");
+		buttonClose.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game.saveGame();
+				System.exit(0);
+			}
+		});
+		buttonClose.setFont(FONT_TEXT_BIG);
+		buttonClose.setSize(new Dimension(150,100));
+		buttonClose.setForeground(Color.WHITE);
+		InfoPanel.add(buttonClose);
 		InfoPanel.add(scoreLabel);
 		InfoPanel.add(jokersLabel);
 	}
 	protected void playRank() {
-		
+		winIsGameOver();
+		// if it is not the case
+		if(!(game.getHand().getCard(0).rankEquals(game.getHand().getCard(3)))){
+			showWarning("The first and last card don't have the same Rank");
+		}
+		else{
+			game.handleRankCase();
+			game.fillHand();
+			displayInfo();
+			displayHand();
+		}
 	}
-	protected void discardDisplay() {
+	protected void winIsGameOver(){
+		if (game.isGameOver()){
+			int score = game.getScore(); // Assume you have a getScore method
+			Object[] options = {"New Game", "End the app"};
+	
+			int response = JOptionPane.showOptionDialog(null, "Congratulations! Your score is " + score, "Game Over", 
+				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+	
+			if (response == 0) {
+				// Start a new game when the "New Game" button is clicked
+				game = new Game();
+				displayHand();
+				displayDiscard();
+				displayDeck();
+				displayInfo();
+			} else if (response == 1) {
+				// Close the window when the "End the app" button is clicked
+				System.exit(0);
+			}
+		}
+	}
+	/* protected void winIsGameOver(){
+		if (game.isGameOver()){
+			int score = game.getScore(); // Assume you have a getScore method
+			JOptionPane.showMessageDialog(null, "Congratulations! Your score is " + score, "Game Over", JOptionPane.QUESTION_MESSAGE);
+			
+			JButton newGameButton = new JButton("New Game");
+			newGameButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					// Start a new game when the button is clicked
+					game = new Game();
+					displayHand();
+					displayDiscard();
+					displayDeck();
+					displayInfo();
+				}
+			});
+	
+			JButton closeButton = new JButton("End the app");
+			closeButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					// Close the window when the button is clicked
+					System.exit(0);
+				}
+			});
+	
+			// Add the buttons to the window
+			this.add(newGameButton);
+			this.add(closeButton);
+		}
+	} */
+	protected void playDraw(){
+		winIsGameOver();
+		game.draw();
+		displayHand();
+	}
+	protected void playJoker(){
+		winIsGameOver();
+		// if it is not possible
+		if(!(game.getJokersLeft() > 0)){
+			showWarning("You have no joker left");
+		}
+		else{
+			game.handleJokerCase();
+			game.fillHand();
+			displayInfo();
+			displayHand();
+		}
+	}
+	protected void playSuit(){
+		winIsGameOver();
+		// if it is not the case
+		if(!(game.getHand().getCard(0).suitEquals(game.getHand().getCard(3)))){
+			showWarning("The first and last card don't have the same Suit");
+		}
+		else{
+			game.handleSuitCase();
+			game.fillHand();
+			displayInfo();
+			displayHand();
+		}
+	}
+	protected void displayDiscard() {
 		// remove all the components from the discard panel
 		discardPanel.removeAll();
 		// display "No card" if the discard pile is empty
+
 		if (game.getDiscard().length() == 0) {
 			JLabel no_card = new JLabel("No card");
-			no_card.setFont(FONT_TEXT);
-			no_card.setSize(getPreferredSize());
+			no_card.setFont(FONT_TEXT_BIG);
+			no_card.setSize(new Dimension(240,200));
 			discardPanel.add(no_card);
 		}
 		// display the top card of the discard pile
@@ -333,75 +451,10 @@ public class GameWindow extends JFrame{
 			discardPanel.add(new JLabel(new ImageIcon(GameWindow.class.getResource(card.imagePath))));
 		}
 	}
-	/*
-	 * Function used to track some really weird NPException that not even the debugger could help with
-	 */
-	public void debug() {
-		System.out.println(handPanel);
-		System.out.println("Debugging");
-		if (handPanel == null) {
-			System.out.println("handPanel is null");
-		} else {
-			System.out.println("handPanel is not null");
-		}
-		if (game.getHand() == null) {
-			System.out.println("game.getHand() is null");
-		} else {
-			System.out.println("game.getHand() is not null");
-		}
-		if (deckPanel == null) {
-			System.out.println("deckPanel is null");
-		} else {
-			System.out.println("deckPanel is not null");
-		}
-		if (discardPanel == null) {
-			System.out.println("discardPanel is null");
-		} else {
-			System.out.println("discardPanel is not null");
-		}
-		if (InfoPanel == null) {
-			System.out.println("InfoPanel is null");
-		} else {
-			System.out.println("InfoPanel is not null");
-		}
-		if (buttonsPanel == null) {
-			System.out.println("buttonsPanel is null");
-		} else {
-			System.out.println("buttonsPanel is not null");
-		}
-		if (buttonDraw == null) {
-			System.out.println("buttonDraw is null");
-		} else {
-			System.out.println("buttonDraw is not null");
-		}
-		if (showback == null) {
-			System.out.println("showback is null");
-		} else {
-			System.out.println("showback is not null");
-		}
-		if (buttonRank == null) {
-			System.out.println("buttonRank is null");
-		} else {
-			System.out.println("buttonRank is not null");
-		}
-		if (buttonSuits == null) {
-			System.out.println("buttonSuits is null");
-		} else {
-			System.out.println("buttonSuits is not null");
-		}
-		if (cardDisplay1 == null) {
-			System.out.println("cardDisplay1 is null");
-		} else {
-			System.out.println("cardDisplay1 is not null");
-		}
-
-	}
 	protected void clearHand() {
 		handPanel.removeAll();
 	}
 	protected void displayHand(){
-		System.out.println("Displaying hand");
-		debug();
 		// list the cards in the hand
 		ArrayList<String> cardImages = new ArrayList<String>();
 		int number_of_cards_to_display;
@@ -429,8 +482,8 @@ public class GameWindow extends JFrame{
 		}
 		handPanel.revalidate();
 		handPanel.repaint();
-		deckDisplay();
-		discardDisplay();
+		displayDeck();
+		displayDiscard();
 	}
 	
 }

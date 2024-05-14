@@ -7,7 +7,7 @@ public class TestMain {
     public static void main(String[] args){
 
         Game g = new Game();
-        g.loadGame();
+        /* g.loadGame(); */
 
         // launch the game in the GUI
         GameWindow gw = new GameWindow(g);

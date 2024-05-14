@@ -114,7 +114,7 @@ public class Game {
             score += 5;
             // Put 4 top cards (of the hand) in the discard pile
             for (int i = 0; i < 4; i++){
-                discard.addCard(hand.getCard(i));
+                discard.addCard(hand.getCard(0));
             }
             // Remove these 4 cards from the hand
             for (int i = 0; i < 4; i++){
@@ -132,7 +132,7 @@ public class Game {
             score += 2;
             // Put the 2 middle cards (of the Four top cards of the hand) in the discard pile
             for (int i = 1; i < 3; i++){
-                discard.addCard(hand.getCard(i));
+                discard.addCard(hand.getCard(1));
             }
             // Remove these 2 cards from the hand
             for (int i = 1; i < 3; i++){
