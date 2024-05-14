@@ -13,7 +13,7 @@ The tests for this project are located in the `test` directory.
 
 ## Running the game
 
-To run the game, execute the [`TestMain`](./game/src/bin/test/TestMain.java) class.
+To run the game, execute the [`TestMain`](./game/test/test/TestMain.java) class.
 
 ## Graphic User Interface Preview
 
