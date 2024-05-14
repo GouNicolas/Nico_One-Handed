@@ -15,6 +15,10 @@ The tests for this project are located in the `test` directory.
 
 To run the game, execute the [`TestMain`](./game/src/bin/test/TestMain.java) class.
 
+## Graphic User Interface Preview
+
+![GUI Preview](/GUIpreview.png)
+
 ## Built With
 
 * [Java](https://www.java.com) - The programming language used

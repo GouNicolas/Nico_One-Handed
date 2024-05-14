@@ -19,11 +19,12 @@ public class ConsoleDisplay {
         System.out.println("The deck is shuffled and the player draw 4 cards");
         System.out.println("The goal of the game is to discard all the cards or to get the highest score possible.");
         System.out.println("The game ends when the player has no action left or when the deck is empty.");
-        System.out.println("The player can then choose between 4 actions :");
+        System.out.println("The player can then choose between 6 actions :");
         System.out.println("Rank : If last and first cards in your hand have the same rank, you discard 4 cards from your hand and score 5");
         System.out.println("Suit : If last and first cards in your hand have the same suit, you discard the 2 cards in the middle your hand and score 2");
         System.out.println("Joker : Discard the 2 cards in the middle of the hand, can only be used three times, you score 0");
         System.out.println("Draw : The player draws enough cards from the deck to have 4 cards in hands");
+        System.out.println("Close : to close the game and save it");
         System.out.println("Help : Display the rules and the actions");
     }
 

@@ -13,11 +13,12 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 // other
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
+
 // javax.swing
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -28,17 +29,21 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 
-import model.Card;
 // import model classes
 import model.Game;
+import model.Card;
 
 /**
  * Class to create the game window
- * 
+ * the attributes are the panels, the game instance and the cosmetics
  */
 public class GameWindow extends JFrame{
-	protected static final long serialVersionUID = 2L;
+	public static final long serialVersionUID = 2L;
 
 	
 
@@ -72,18 +77,9 @@ public class GameWindow extends JFrame{
 	protected JButton buttonSuit;
 	protected JButton buttonJoker;
 
-	protected JLabel cardDisplay1;
-	protected JLabel cardDisplay2;
 
 
-
-	private JButton buttonClose;
-
-
-
-	private JButton buttonLoadSave;
-
-
+	private JMenuBar menuBar;
 
 	/**
 	 * Constructor
@@ -190,7 +186,10 @@ public class GameWindow extends JFrame{
 				break;
 			}
 		}
-		
+		// Change the default font for the JOptionPane
+		UIManager.put("OptionPane.messageFont", new Font("Arial", Font.BOLD, 14));
+		// change the font for the buttons
+		UIManager.put("Button.font", FONT_TEXT_BIG);
 		// configure the panel for the buttons
 		buttonsPanel.setMinimumSize(BUTTONS_PANEL_DIMENSION);
 		buttonsPanel.setLayout(new GridLayout());
@@ -224,6 +223,8 @@ public class GameWindow extends JFrame{
 		// deckdisplay
 		displayDeck();
 
+		// add the menu bar
+		menuBar();
 		// discard display
 		displayDiscard();
 
@@ -235,6 +236,7 @@ public class GameWindow extends JFrame{
 
 		// display the hand
 		displayHand();
+
 
 		// make the window visible
 		this.setVisible(true);
@@ -325,21 +327,23 @@ public class GameWindow extends JFrame{
 		JLabel jokersLabel = new JLabel("Jokers left: " + game.getJokersLeft());
 		jokersLabel.setFont(FONT_TEXT_BIG);
 		jokersLabel.setForeground(Color.WHITE);
-		// add a button 
-		buttonClose = new JButton("Save and Close");
-		buttonClose.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				game.saveGame();
-				System.exit(0);
-			}
-		});
-		buttonClose.setFont(FONT_TEXT_BIG);
-		buttonClose.setSize(new Dimension(150,100));
-		buttonClose.setForeground(Color.WHITE);
 		
-		buttonLoadSave = new JButton("Load Save");
-		buttonLoadSave.addActionListener(new ActionListener(){
+		// add the labels and buttons
+		InfoPanel.add(scoreLabel);
+		InfoPanel.add(jokersLabel);
+	}
+	protected void menuBar(){
+		// Create a menu bar
+		menuBar = new JMenuBar();
+
+		// Create a menu
+		JMenu menu = new JMenu("Menu");
+		menuBar.add(menu);
+
+		// Create a menu item for "Load Save"
+		JMenuItem loadSaveItem = new JMenuItem("Load last game");
+		loadSaveItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
+		loadSaveItem.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.loadGame();
@@ -349,14 +353,52 @@ public class GameWindow extends JFrame{
 				displayInfo();
 			}
 		});
-		buttonLoadSave.setFont(FONT_TEXT_BIG);
-		buttonLoadSave.setSize(new Dimension(150,100));
-		buttonLoadSave.setForeground(Color.WHITE);
-		// add the labels and buttons
-		InfoPanel.add(scoreLabel);
-		InfoPanel.add(jokersLabel);
-		InfoPanel.add(buttonClose);
-		InfoPanel.add(buttonLoadSave);
+		
+
+		// Create a menu item for "New Game"
+		JMenuItem newGameItem = new JMenuItem("New Game");
+		newGameItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
+		newGameItem.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game = new Game();
+				displayDeck();
+				displayDiscard();
+				displayHand();
+				displayInfo();
+			}
+		});
+		
+
+		// Create a menu item for "Rules"
+		JMenuItem rulesItem = new JMenuItem("Rules");
+		rulesItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
+		rulesItem.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				displayRules();
+			}
+		});
+		
+
+		// Create a menu item for "Close and save"
+		JMenuItem closeSaveItem = new JMenuItem("Close and save");
+		closeSaveItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
+		closeSaveItem.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game.saveGame();
+				System.exit(0);
+			}
+		});
+		menu.add(newGameItem);
+		menu.add(loadSaveItem);
+		menu.add(closeSaveItem);
+		menu.add(rulesItem);
+		menu.setFont(FONT_TEXT);
+		// Set the menu bar
+		this.setJMenuBar(menuBar);
+		
 	}
 	protected void playRank() {
 		winIsGameOver();
@@ -476,6 +518,17 @@ public class GameWindow extends JFrame{
 		displayDeck();
 		displayDiscard();
 	}
-	
+	protected void displayRules(){
+		String rules= "The game is played with a deck of 52 cards"
+        +"\nThe deck is shuffled, then the player draw 4 cards"
+        +"\nThe goal of the game is to discard all the cards or to get the highest score possible."
+        +"\nThe game ends when the player has no action left or when the deck is empty."
+        +"\nThe player can then choose between 4 actions :"
+        +"\nRank : If last and first cards in your hand have the same rank, you discard 4 cards from your hand and score 5"
+        +"\nSuit : If last and first cards in your hand have the same suit, you discard the 2 cards in the middle your hand and score 2"
+        +"\nJoker : Discard the 2 cards in the middle of the hand, can only be used three times, you score 0"
+        +"\nDraw : The player draws enough cards from the deck to have 4 cards in hands";
+		JOptionPane.showMessageDialog(this, rules, "Rules", JOptionPane.INFORMATION_MESSAGE);
+	}
 }
 
