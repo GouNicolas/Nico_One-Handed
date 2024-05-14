@@ -185,8 +185,10 @@ public class Game {
     }
     
     public boolean isGameOver(){
+        // NOTE : if the player has still jokers left, the game can end
+        // The game is over if the deck is empty and the hand has less than 4 cards
         if (deck.length() == 0){
-            // The game is over if the deck is empty and the hand has less than 4 cards
+            
             if (hand.length() <4){
                 return true;
             }
@@ -194,7 +196,9 @@ public class Game {
             else if (noSuitNoRank()){
                 return true;
             }
+        
         }
+        
         // The game is not over
         return false;
     }

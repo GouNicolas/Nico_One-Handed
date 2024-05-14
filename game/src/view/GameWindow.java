@@ -81,6 +81,10 @@ public class GameWindow extends JFrame{
 
 
 
+	private JButton buttonLoadSave;
+
+
+
 	/**
 	 * Constructor
 	 */
@@ -333,9 +337,26 @@ public class GameWindow extends JFrame{
 		buttonClose.setFont(FONT_TEXT_BIG);
 		buttonClose.setSize(new Dimension(150,100));
 		buttonClose.setForeground(Color.WHITE);
-		InfoPanel.add(buttonClose);
+		
+		buttonLoadSave = new JButton("Load Save");
+		buttonLoadSave.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game.loadGame();
+				displayDeck();
+				displayDiscard();
+				displayHand();
+				displayInfo();
+			}
+		});
+		buttonLoadSave.setFont(FONT_TEXT_BIG);
+		buttonLoadSave.setSize(new Dimension(150,100));
+		buttonLoadSave.setForeground(Color.WHITE);
+		// add the labels and buttons
 		InfoPanel.add(scoreLabel);
 		InfoPanel.add(jokersLabel);
+		InfoPanel.add(buttonClose);
+		InfoPanel.add(buttonLoadSave);
 	}
 	protected void playRank() {
 		winIsGameOver();
@@ -371,36 +392,6 @@ public class GameWindow extends JFrame{
 			}
 		}
 	}
-	/* protected void winIsGameOver(){
-		if (game.isGameOver()){
-			int score = game.getScore(); // Assume you have a getScore method
-			JOptionPane.showMessageDialog(null, "Congratulations! Your score is " + score, "Game Over", JOptionPane.QUESTION_MESSAGE);
-			
-			JButton newGameButton = new JButton("New Game");
-			newGameButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					// Start a new game when the button is clicked
-					game = new Game();
-					displayHand();
-					displayDiscard();
-					displayDeck();
-					displayInfo();
-				}
-			});
-	
-			JButton closeButton = new JButton("End the app");
-			closeButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					// Close the window when the button is clicked
-					System.exit(0);
-				}
-			});
-	
-			// Add the buttons to the window
-			this.add(newGameButton);
-			this.add(closeButton);
-		}
-	} */
 	protected void playDraw(){
 		winIsGameOver();
 		game.draw();
