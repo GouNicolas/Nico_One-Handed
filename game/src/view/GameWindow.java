@@ -48,34 +48,33 @@ public class GameWindow extends JFrame{
 	
 
 	// game instance
-	protected Game game = new Game();
+	private Game game = new Game();
 
 	//constants for the cosmetics
-	protected Color COLOR_CREAM = new Color(250, 225, 225);
-	protected Color COLOR_PINK_PURPLE = new Color(225, 175, 209);
-	protected Color COLOR_LIGHT_PURPLE = new Color(173, 136, 198);
-	protected Color COLOR_PURPLE = new Color(116, 105, 182);
-	protected Font FONT_TEXT = new Font("Carlito", Font.PLAIN, 20);
-	protected Font FONT_TEXT_BIG = new Font("Carlito", Font.BOLD, 24);
-	protected Dimension LATERAL_PANEL_DIMENSION = new Dimension(240, 400);
-	protected Dimension HAND_PANEL_DIMENSION = new Dimension(900, 400);
-	protected Dimension BUTTONS_PANEL_DIMENSION = new Dimension(1600, 200);
-	protected Dimension INFO_PANEL_DIMENSION = new Dimension(1600, 80);
+	private Color COLOR_CREAM = new Color(250, 225, 225);
+	private Color COLOR_PINK_PURPLE = new Color(225, 175, 209);
+	private Color COLOR_LIGHT_PURPLE = new Color(173, 136, 198);
+	private Color COLOR_PURPLE = new Color(116, 105, 182);
+	private Font FONT_TEXT = new Font("Carlito", Font.PLAIN, 20);
+	private Font FONT_TEXT_BIG = new Font("Carlito", Font.BOLD, 24);
+	private Dimension LATERAL_PANEL_DIMENSION = new Dimension(240, 400);
+	private Dimension HAND_PANEL_DIMENSION = new Dimension(900, 400);
+	private Dimension BUTTONS_PANEL_DIMENSION = new Dimension(1600, 200);
+	private Dimension INFO_PANEL_DIMENSION = new Dimension(1600, 80);
 
 	// window elements
-	protected JPanel handPanel;
-	protected JPanel deckPanel;
-	protected JPanel discardPanel;
-	protected JPanel InfoPanel;
-	protected JPanel buttonsPanel;
-	protected ImageIcon backgroundImage;
+	private JPanel handPanel;
+	private JPanel deckPanel;
+	private JPanel discardPanel;
+	private JPanel InfoPanel;
+	private JPanel buttonsPanel;
+	private ImageIcon backgroundImage;
 
 	// game elements
-	protected JButton showback;
-	protected JButton buttonDraw;
-	protected JButton buttonRank;
-	protected JButton buttonSuit;
-	protected JButton buttonJoker;
+	private JButton buttonDraw;
+	private JButton buttonRank;
+	private JButton buttonSuit;
+	private JButton buttonJoker;
 
 
 
@@ -211,7 +210,7 @@ public class GameWindow extends JFrame{
 		deckPanel.setMinimumSize(LATERAL_PANEL_DIMENSION);
 
 		// configure the panel for the hand
-		handPanel.setMinimumSize(new Dimension(1000,400));
+		handPanel.setMinimumSize(HAND_PANEL_DIMENSION);
 		handPanel.setBorder(BorderFactory.createLineBorder(COLOR_PINK_PURPLE, 4));
 		handPanel.setLayout(new GridBagLayout());
 
@@ -491,8 +490,8 @@ public class GameWindow extends JFrame{
 		// list the cards in the hand
 		ArrayList<String> cardImages = new ArrayList<String>();
 		int number_of_cards_to_display;
-		if (game.getHand().getHandSize() < 4) {
-			number_of_cards_to_display = game.getHand().getHandSize();
+		if (game.getHand().length() < 4) {
+			number_of_cards_to_display = game.getHand().length();
 		}
 		else {
 			number_of_cards_to_display = 4;

@@ -1,5 +1,6 @@
 package test;
 
+
 import model.Game;
 import view.GameWindow;
 
@@ -13,6 +14,6 @@ public class TestMain {
         GameWindow gw = new GameWindow(g);
 
         // launch the in the console
-        //g.playGameConsole(); 
+        //g.playGameConsole();
     }
 }

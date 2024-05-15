@@ -47,14 +47,6 @@ public class Hand implements ListOfCards {
     }
 
     /**
-     * Returns the size of the hand.
-     * @return the size of the hand
-     */
-    public int getHandSize() {
-        return hand.size();
-    }
-
-    /**
      * Clears the hand, removing all cards.
      */
     public void clearHand() {
