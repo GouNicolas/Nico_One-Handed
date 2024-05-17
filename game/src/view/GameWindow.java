@@ -400,7 +400,6 @@ public class GameWindow extends JFrame{
 		
 	}
 	protected void playRank() {
-		winIsGameOver();
 		// if it is not the case
 		if(!(game.getHand().getCard(0).rankEquals(game.getHand().getCard(3)))){
 			showWarning("The first and last card don't have the same Rank");
@@ -411,6 +410,7 @@ public class GameWindow extends JFrame{
 			displayInfo();
 			displayHand();
 		}
+		winIsGameOver();
 	}
 	protected void winIsGameOver(){
 		if (game.isGameOver()){
@@ -434,12 +434,11 @@ public class GameWindow extends JFrame{
 		}
 	}
 	protected void playDraw(){
-		winIsGameOver();
 		game.draw();
 		displayHand();
+		winIsGameOver();
 	}
 	protected void playJoker(){
-		winIsGameOver();
 		// if it is not possible
 		if(!(game.getJokersLeft() > 0)){
 			showWarning("You have no joker left");
@@ -450,6 +449,7 @@ public class GameWindow extends JFrame{
 			displayInfo();
 			displayHand();
 		}
+		winIsGameOver();
 	}
 	protected void playSuit(){
 		winIsGameOver();
