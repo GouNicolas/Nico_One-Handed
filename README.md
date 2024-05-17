@@ -24,17 +24,10 @@ To run the game, execute the [`TestMain`](./game/test/test/TestMain.java) class.
 * [Java](https://www.java.com) - The programming language used
 * [JUnit](https://junit.org/junit5/) - The testing framework used
 
-## Contributing
-
-Please read `CONTRIBUTING.md` for details on our code of conduct, and the process for submitting pull requests to us.
-
 ## Authors
 
 * **GOUILLARDON Nicolas** - [GouNicolas](https://github.com/GouNicolas)
 * **DAVAL Nicolas** - [Nikoala4](https://github.com/Nikoala4)
 
-## License
-
-This project is licensed under the MIT License - see the `LICENSE.md` file for details
 
 
