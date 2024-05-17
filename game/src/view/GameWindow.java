@@ -39,8 +39,13 @@ import model.Game;
 import model.Card;
 
 /**
- * Class to create the game window
- * the attributes are the panels, the game instance and the cosmetics
+ * The `GameWindow` class represents the main window of the game. It extends the `JFrame` class and provides the graphical user interface for the game.
+ * 
+ * The window contains various panels for displaying the game elements such as the hand, deck, discard pile, and information panel. It also includes buttons for performing game actions like playing cards and drawing new cards.
+ * 
+ * The `GameWindow` class initializes the game and sets up the window properties, layout, and components. It also handles user actions and updates the display accordingly.
+ * 
+ * @param g The `Game` instance representing the game logic.
  */
 public class GameWindow extends JFrame{
 	public static final long serialVersionUID = 2L;
@@ -486,6 +491,7 @@ public class GameWindow extends JFrame{
 	protected void clearHand() {
 		handPanel.removeAll();
 	}
+	
 	protected void displayHand(){
 		// list the cards in the hand
 		ArrayList<String> cardImages = new ArrayList<String>();
