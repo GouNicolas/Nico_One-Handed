@@ -530,4 +530,3 @@ public class GameWindow extends JFrame{
 		JOptionPane.showMessageDialog(this, rules, "Rules", JOptionPane.INFORMATION_MESSAGE);
 	}
 }
-
